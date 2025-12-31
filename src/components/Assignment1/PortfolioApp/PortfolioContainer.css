@@ -5,6 +5,18 @@
     gap: 20px;
 }
 
+.portfolio-container.light
+{
+    background-color: white;
+    color: black
+}
+
+.portfolio-container.dark
+{
+    background-color: black;
+    color: white;
+}
+
 .portfolio-card {
     padding: 20px;
     width: 100%;
