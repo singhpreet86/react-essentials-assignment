@@ -39,7 +39,7 @@ function MovieAppContainer({theme}){
     };
 
      const filteredMovies = MovieData.filter((movie) =>
-        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         movie.genre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         movie.year.toString().includes(searchTerm) ||
