@@ -37,17 +37,34 @@
     margin-bottom: 15px;
 }
 
-.movie-card.light
-{
+.movie-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.movie-card.light {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 15px;
     background-color: white;
     color: black
 }
 
-.movie-card.dark
-{
+.movie-card.dark {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 15px;
     background-color: black;
     color: white;
 }
+
 
 .movie-image {
     width: 100%;
