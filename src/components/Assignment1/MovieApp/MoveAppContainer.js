@@ -6,6 +6,25 @@ function MovieAppContainer({theme}){
     const [favorites, setFavorites ] = useState([]);
     const [searchTerm, setSearchTerm ] = useState("");
 
+    function Favorite() {
+        return (
+             <div className="favorite-movies">
+                <h2> Favorite Movies </h2>
+                {favorites.length > 0 ? (
+                    <ul>
+                        {favorites.map((movie, index) => (
+                            <li className="favorite-movie-info" key={index}>{movie.title} ({movie.year}) 
+                                <button className="remove-favorite" onClick={() => removeFromFavorites(movie.id)}>Remove from Favorites</button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (       
+                <p>No favorite movies added yet.</p>    
+                )}
+            </div>
+        );
+    }
+
     const addToFavorites = (movie) => { 
         if (favorites.find((favMovie) => favMovie.id === movie.id)) {    
             alert("Movie is already in favorites!"); 
@@ -59,20 +78,9 @@ function MovieAppContainer({theme}){
                     </div>
                 ))}
             </div>
-            <div className="favorite-movies">
-                <h2> Favorite Movies </h2>
-                {favorites.length > 0 ? (
-                    <ul>
-                        {favorites.map((movie, index) => (
-                            <li className="favorite-movie-info" key={index}>{movie.title} ({movie.year}) 
-                                <button className="remove-favorite" onClick={() => removeFromFavorites(movie.id)}>Remove from Favorites</button>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (       
-                <p>No favorite movies added yet.</p>    
-                )}
-            </div>
+
+            <Favorite />
+                      
         </div>
     );
 
