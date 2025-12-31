@@ -21,7 +21,7 @@ function App() {
             MoveApp
         </button>
         <button onClick={toggleTheme} className='active'>
-            {theme === "light" ? "Dark" : "Light"}
+            {theme === "light" ? "🌙 Dark" : " ☀️ Light"}
         </button>
         
       </div>
