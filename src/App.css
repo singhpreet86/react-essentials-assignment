@@ -5,6 +5,14 @@
   gap: 20px;
 }
 
+.switch-app button{
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
 .switch-app button.active{
 background-color: blue;
 color: white;
