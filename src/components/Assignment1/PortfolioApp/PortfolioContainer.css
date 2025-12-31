@@ -10,7 +10,7 @@
     width: 100%;
     max-width: 380px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgb(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgb(0, 0, 0, 0.1);
 }
 
 .header {
@@ -22,6 +22,7 @@
 .profile-image {
     width: 90px;
     height: 90px;
+    border-radius: 50%;
     object-fit: cover;
 }
 
@@ -29,11 +30,67 @@
     flex: 1;
 }
 
-.name{
-    font-size: 12px;
+.name {
+    font-size: 14px;
 }
 
-.title{
-font-size: 12px;
+.title {
+    font-size: 14px;
+}
 
+.bio-section {
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.skills-section {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.skills-section span {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.skill-item {
+    background-color: #f0f0f0;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.skills-label{
+    font-weight: 700;
+    margin-right: 8px;
+
+}
+
+.like-section {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;    
+    font-size: 14px;
+    font-weight: 600;
+    color: #007BFF;
+    cursor: pointer;  
+}
+
+.like-button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.like-count {
+    font-size: 14px;
 }
