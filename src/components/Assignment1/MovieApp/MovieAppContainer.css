@@ -1,82 +1,99 @@
-import MovieData from "../Database/MovieData";
-import "./MovieAppContainer.css";
-import { useState } from "react";
-
-function MovieAppContainer(){
-    const [favorites, setFavorites ] = useState([]);
-    const [searchTerm, setSearchTerm ] = useState("");
-
-    const addToFavorites = (movie) => { 
-        if (favorites.find((favMovie) => favMovie.id === movie.id)) {    
-            alert("Movie is already in favorites!"); 
-            return;   
-        }       
-        setFavorites([...favorites, movie]);    
-    };
-
-    const removeFromFavorites = (movieId) => {
-        const newFavorites = favorites.filter((movie) => movie.id !== movieId);
-        setFavorites(newFavorites);
-    };
-
-    const filteredMovies = MovieData.filter((movie) =>
-        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    return (
-        <div className="movie-app">
-            <div className="movie-header">
-                <h1> Movie App </h1>
-            </div>
-            <div className="search-bar">
-                <input 
-                    type="text" 
-                    placeholder="Search movies..." 
-                    value={searchTerm} 
-                    onChange={(e) => setSearchTerm(e.target.value)} 
-                />
-                <button onClick={() => setSearchTerm("")}>Reset</button>
-            </div>  
-            <div className="movie-container">
-
-                {filteredMovies.length === 0 && (                      
-                    <p className="no-movies-message"> No movies found matching "{searchTerm}"</p>
-                )}
-
-                {filteredMovies.map((movie) => (
-                    <div key={movie.id} className="movie-card">
-                        <div className="movie-info">
-                            <h2 className="movie-title">{movie.title}</h2>
-                            <p className="movie-release-year">Release Year: {movie.year}</p>
-                            <p className="movie-genre">Genre: {movie.genre}</p>
-                            <span className="rating">{movie.rating}</span>
-                            {movie.tags.map((tag, index) => 
-                                <span key={index} className="tag-item">{tag}</span>
-                            )
-                            }
-                            <button className="favorite" onClick={() => addToFavorites(movie)}>Add to Favorites</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className="favorite-movies">
-                <h2> Favorite Movies </h2>
-                {favorites.length > 0 ? (
-                    <ul>
-                        {favorites.map((movie, index) => (
-                            <li className="favorite-movie-info" key={index}>{movie.title} ({movie.year}) 
-                                <button className="remove-favorite" onClick={() => removeFromFavorites(movie.id)}>Remove from Favorites</button>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (       
-                <p>No favorite movies added yet.</p>    
-                )}
-            </div>
-        </div>
-    );
-
+.movie-app {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: lightgray;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 12px;
 }
 
+.movie-header {
+    text-align: left;
+    margin-bottom: 20px;
+}
 
-export default MovieAppContainer
+.movie-header h1 {
+    font-size: 24px;
+    color: black;
+}
+
+.movie-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.movie-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+.movie-info {
+    margin-top: 10px;
+}
+
+.rating {
+    display: inline-block;
+    background-color: orange;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.tag-item {
+    display: inline-block;
+    background-color: blue;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+ .favorite {
+    background-color: green;
+    color: white;
+    border-radius: 15;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    float: right;
+}
+.favorite-movies {
+    margin-top: 30px;
+}
+
+.favorite-movie-info {
+    font-size: 16px;
+    margin-bottom: 8px;
+    list-style: none;  
+}
+.remove-favorite {
+    background-color: red;
+    color: white;
+    border-radius: 15;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+    text-align: center;     
+}
+
+.search-input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
