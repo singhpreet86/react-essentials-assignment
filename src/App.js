@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import MovieAppContainer from './components/Assignment1/MovieApp/MoveAppContainer';
+import PortfolioAppContainer from './components/Assignment1/PortfolioApp/PortfolioAppContainer';
 
 function App() {
+  const [theme, setTheme] = useState("light");
+  const [app, setApp] = useState("portfolioapp");
+  
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='switch-app'>
+        <button onClick={() => setApp("portfolioapp")} className={app === "portfolioapp" ? "active" : ""}>
+            PortfolioApp
+        </button>
+        <button onClick={() => setApp("movieapp")} className={app === "portfolioapp" ? "" : "active"}>
+            MoveApp
+        </button>
+        <button onClick={toggleTheme} className='active'>
+            {theme === "light" ? "Dark" : "Light"}
+        </button>
+        
+      </div>
+
+      {app === "portfolioapp" && <PortfolioAppContainer/>}
+      {app === "movieapp" && <MovieAppContainer/>}
+
     </div>
   );
 }
