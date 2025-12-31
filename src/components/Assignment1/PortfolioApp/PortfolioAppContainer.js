@@ -5,7 +5,7 @@ import Skills from "./Skills";
 import Like from "./Like";
 
 
-function PortfolioAppContainer() {
+function PortfolioAppContainer({theme}) {
     function PortfolioCard({ data }) {
         return (
             <div className="portfolio-card">
@@ -25,7 +25,7 @@ function PortfolioAppContainer() {
 
 
     return (
-        <div className="portfolio-container">
+        <div className={`portfolio-container ${theme}`}>
             {PortfolioData.map((data, index) => (
                 <>
                     <PortfolioCard data={data} key={data.id} />
