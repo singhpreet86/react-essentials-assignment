@@ -1,10 +1,10 @@
 .movie-app {
     font-family: Arial, sans-serif;
     padding: 20px;
-    background-color: lightgray;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     border-radius: 12px;
+    background-color: lightgray;
 }
 
 .movie-app.light
@@ -15,7 +15,7 @@
 
 .movie-app.dark
 {
-    background-color: black;
+    background-color: rgb(65, 63, 63);
     color: white;
 }
 
@@ -29,24 +29,7 @@
     color: black;
 }
 
-.movie-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 15px;
-    margin-bottom: 15px;
-}
-
-.movie-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 15px;
-    margin-bottom: 15px;
-}
-
 .movie-card.light {
-    background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 15px;
@@ -56,12 +39,11 @@
 }
 
 .movie-card.dark {
-    background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 15px;
     margin-bottom: 15px;
-    background-color: black;
+    background-color: rgb(65, 63, 63);
     color: white;
 }
 
