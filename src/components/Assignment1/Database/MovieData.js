@@ -1,7 +1,7 @@
 const MovieData = [
     {
         id: 1,
-        title: DDL1,
+        title: "DDL1",
         year: 2015,
         genre: "Sci-Fi",
         rating: 9.0,
@@ -10,7 +10,7 @@ const MovieData = [
 
     {
         id: 2,
-        title: Krish,
+        title: "Krish",
         year: 2018,
         genre: "Action",
         rating: 7.5,
@@ -19,7 +19,7 @@ const MovieData = [
 
     {
         id: 3,
-        title: Silence,
+        title: "Silence",
         year: 2020,
         genre: "Drama",
         rating: 9.2,
@@ -28,7 +28,7 @@ const MovieData = [
 
     {
         id: 4,
-        title: DDL2,
+        title: "DDL2",
         year: 2025,
         genre: "Comedy",
         rating: 8.5,
@@ -37,7 +37,7 @@ const MovieData = [
 
     {
         id: 5,
-        title: Tiger,
+        title: "Tiger",
         year: 2026,
         genre: "Sci-fi",
         rating: 9.0,
