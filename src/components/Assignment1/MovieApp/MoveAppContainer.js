@@ -24,7 +24,7 @@ function MovieAppContainer({theme}){
     );
 
     return (
-        <div className={`movie-app ${theme}`}>
+        <div className="movie-app">
             <div className="movie-header">
                 <h1> Movie App </h1>
             </div>
