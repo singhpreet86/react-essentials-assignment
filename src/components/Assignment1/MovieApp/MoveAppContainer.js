@@ -25,12 +25,16 @@ function MovieAppContainer({theme}){
         );
     }
 
+    const isFavroute = (movieId) => {
+        return favorites.some((movie) => movie.id === movieId);
+    }
+
     const addToFavorites = (movie) => { 
-        if (favorites.find((favMovie) => favMovie.id === movie.id)) {    
-            alert("Movie is already in favorites!"); 
-            return;   
-        }       
-        setFavorites([...favorites, movie]);    
+        if (isFavroute(movie.id)) {    
+            setFavorites(favorites.filter((fav) => fav.id !== movie.id));
+        } else {       
+        setFavorites([...favorites, movie]);
+        }    
     };
 
     const removeFromFavorites = (movieId) => {
@@ -78,7 +82,10 @@ function MovieAppContainer({theme}){
                                 <span key={index} className="tag-item">{tag}</span>
                             )
                             }
-                            <button className="favorite" onClick={() => addToFavorites(movie)}>Add to Favorites</button>
+                            <button className={`favorite ${isFavroute(movie.id) ? "active-favroute" : ""}`} onClick={() => addToFavorites(movie)}> 
+                                {isFavroute(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
+                                
+                                </button>
                         </div>
                     </div>
                 ))}

@@ -88,6 +88,18 @@
     cursor: pointer;
     float: right;
 }
+
+.active-favroute{
+    background-color: red;
+    color: white;
+    border-radius: 15;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    float: right;
+}
+
 .favorite-movies {
     margin-top: 30px;
 }
