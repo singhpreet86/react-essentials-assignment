@@ -8,7 +8,7 @@ import Like from "./Like";
 function PortfolioAppContainer({theme}) {
     function PortfolioCard({ data }) {
         return (
-            <div className="portfolio-card">
+            <div className={`portfolio-card ${theme}`}>
                 <div className="header" key={data.id}>
                     <img src={data.portfolioImage} alt={data.name} className="profile-image" />
                     <div className="profile-info">
@@ -17,7 +17,7 @@ function PortfolioAppContainer({theme}) {
                     </div>
                 </div>
                 <Bio bio={data.bio} />
-                <Skills skills={data.skills} /> 
+                <Skills skills={data.skills} theme={theme}/>
                 <Like />
             </div>
         )
