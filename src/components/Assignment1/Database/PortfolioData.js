@@ -31,7 +31,7 @@ const PortfolioData = [
         id: 4,
         name: "Nakul",
         title: "UI Developer",
-        bio: "I create seamsless UI application with modern technoligies",
+        bio: "I create seamsless UI designs and applications with modern technoligies",
         skills: ["Abode", "Figma", "HTML", "Css"],
         portfolioImage: "https://plus.unsplash.com/premium_photo-1661544807248-2786202627e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjR8fGRldmVsb3BlciUyMHBvcnRmb2xpbyUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D"
 
