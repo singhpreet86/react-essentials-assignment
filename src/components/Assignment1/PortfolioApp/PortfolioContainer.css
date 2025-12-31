@@ -1,4 +1,10 @@
 .portfolio-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 12px;
+    background-color: lightgray;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -16,7 +22,7 @@
 }
 
 .portfolio-card.dark {
-    background-color: rgb(34, 31, 31);
+    background-color: rgb(65, 63, 63);
     color: white;
     padding: 20px;
     width: 100%;
