@@ -2,7 +2,7 @@ import MovieData from "../Database/MovieData";
 import "./MovieAppContainer.css";
 import { useState } from "react";
 
-function MovieAppContainer(){
+function MovieAppContainer({theme}){
     const [favorites, setFavorites ] = useState([]);
     const [searchTerm, setSearchTerm ] = useState("");
 
@@ -24,7 +24,7 @@ function MovieAppContainer(){
     );
 
     return (
-        <div className="movie-app">
+        <div className={`movie-app ${theme}`}>
             <div className="movie-header">
                 <h1> Movie App </h1>
             </div>
@@ -44,7 +44,7 @@ function MovieAppContainer(){
                 )}
 
                 {filteredMovies.map((movie) => (
-                    <div key={movie.id} className="movie-card">
+                    <div key={movie.id} className={`movie-card ${theme}`}>
                         <div className="movie-info">
                             <h2 className="movie-title">{movie.title}</h2>
                             <p className="movie-release-year">Release Year: {movie.year}</p>
