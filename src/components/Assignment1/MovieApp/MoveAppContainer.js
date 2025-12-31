@@ -38,9 +38,14 @@ function MovieAppContainer({theme}){
         setFavorites(newFavorites);
     };
 
-    const filteredMovies = MovieData.filter((movie) =>
+     const filteredMovies = MovieData.filter((movie) =>
         movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        movie.genre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        movie.year.toString().includes(searchTerm) ||
+       movie.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+     );
+
 
     return (
         <div className="movie-app">
