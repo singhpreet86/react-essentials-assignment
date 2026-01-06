@@ -1,24 +1,36 @@
-.switch-app{
-  margin: 20px 0;
-  justify-content: center;
+
+
+.App{ 
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: whitesmoke;
 }
 
-.switch-app button{
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: lightgray;
-  cursor: pointer;
+.app-header{
+  background-color: blue;
+  color: white;
+  text-align: center;
 }
 
-.switch-app button.active{
-background-color: blue;
-color: white;
+.app-main{
+  display: flex;
+  flex: 1;
+  gap: 2rem;
+  padding: 2rem;
 }
 
-.App{
-  min-width: 100vh;
-  padding: 20px;
+.side-bar{
+  background-color: white;
+  flex: 1;
+  border-radius: 2%;
+  padding: 1rem;
+
+}
+
+.content {
+  background-color: white;
+  flex: 2;
+  border-radius: 2%;
+  padding: 1rem;
 }

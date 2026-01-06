@@ -1,34 +1,25 @@
-import { useState } from 'react';
 import './App.css';
-import MovieAppContainer from './components/Assignment1/MovieApp/MoveAppContainer';
-import PortfolioAppContainer from './components/Assignment1/PortfolioApp/PortfolioAppContainer';
+import TaskForm from './components/TaskForm';
+import TaskList from './components/TaskList';
 
 function App() {
-  const [theme, setTheme] = useState("light");
-  const [app, setApp] = useState("portfolioapp");
   
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  }
-
   return (
     <div className="App">
-      <div className='switch-app'>
-        <button onClick={() => setApp("portfolioapp")} className={app === "portfolioapp" ? "active" : ""}>
-            PortfolioApp
-        </button>
-        <button onClick={() => setApp("movieapp")} className={app === "portfolioapp" ? "" : "active"}>
-            MoveApp
-        </button>
-        <button onClick={toggleTheme} className='active'>
-            {theme === "light" ? "🌙 Dark" : " ☀️ Light"}
-        </button>
-        
+
+      <div className='app-header'>
+            <h1> Header </h1>
       </div>
 
-      {app === "portfolioapp" && <PortfolioAppContainer theme={theme}/>}
-      {app === "movieapp" && <MovieAppContainer theme={theme}/>}
-
+      <div className='app-main'>
+          <div className='side-bar'>
+              <TaskForm/>
+          </div>
+          <div className='content'>
+              <TaskList/>
+          </div>
+      </div>
+      
     </div>
   );
 }
