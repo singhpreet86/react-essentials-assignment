@@ -1,14 +1,16 @@
 import './App.css';
+import TaskProvider from './context/TaskContext';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 
 function App() {
   
   return (
+    <TaskProvider>
     <div className="App">
 
       <div className='app-header'>
-            <h1> Header </h1>
+            <h1> Task Manager </h1>
       </div>
 
       <div className='app-main'>
@@ -21,6 +23,7 @@ function App() {
       </div>
       
     </div>
+    </TaskProvider>
   );
 }
 

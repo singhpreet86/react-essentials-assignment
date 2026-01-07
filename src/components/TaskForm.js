@@ -1,8 +1,12 @@
 import { useState } from "react"
+import { useTaskContext } from "../context/TaskContext"
+
 
 const TaskForm = () => {
 
-    const [FormData, SetFormData] = useState({
+    const {addTask} = useTaskContext();
+
+    const [formData, setFormData] = useState({
         title: "",
         description: "",
         priority: "medium",
@@ -10,22 +14,28 @@ const TaskForm = () => {
     })
 
     const handleSubmit = (e) => {
-        alert("form submit");
+        e.preventDefault();
+        addTask(formData);
     }
 
-    const handleChange = (e) => {
-        alert("item changed");
+    const handleChange = (e) => {   
+        const {name, value} = e.target;
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
     }
 
     return (
         <div>
-            <form onClick={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <h2> Add Task </h2>
                 <label>Title</label>
                 <input
                     type="text"
                     name="title"
-                    value={FormData.title}
+                    value={formData.title}
                     onChange={handleChange}
                     placeholder="Task title....."
                     required
@@ -34,7 +44,7 @@ const TaskForm = () => {
                 <label>Description</label>
                 <textarea
                     name="description"
-                    value={FormData.description}
+                    value={formData.description}
                     onChange={handleChange}
                     placeholder="Task description......"
                     rows="3"
@@ -43,7 +53,7 @@ const TaskForm = () => {
                 <label>Priority</label>
                 <select
                     name="priority"
-                    value={FormData.priority}
+                    value={formData.priority}
                     onChange={handleChange}
                 >
                     <option value="low">Low</option>
@@ -51,7 +61,7 @@ const TaskForm = () => {
                     <option value="high">High</option>
                 </select>
 
-                <button type="submit" disabled={!FormData.title.trim()}>
+                <button type="submit" disabled={!formData.title.trim()}>
                     Add Task
                 </button>    
 
