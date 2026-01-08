@@ -2,6 +2,7 @@ import './App.css';
 import TaskProvider from './context/TaskContext';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
+import TaskSummary from './components/TaskSummary';
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
               <TaskForm/>
           </div>
           <div className='content'>
+              <TaskSummary/>
               <TaskList/>
           </div>
       </div>
