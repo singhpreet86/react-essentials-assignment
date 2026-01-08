@@ -1,19 +1,21 @@
 import { useTaskContext } from "../context/TaskContext";
+import TaskItem from "./TaskItem";
 
 const TaskList = () => {
-    const {tasks, clearTasks} = useTaskContext();
+    const { tasks, clearTasks } = useTaskContext();
 
-    return(
+    return (
         <div>
-            <div>
-                <button onClick={clearTasks}>
-                    Clear All Tasks
-                </button>
-            </div>
-
-            {tasks.length === 0 && <h1> No Tasks Added Yet</h1>}
+            {tasks.length === 0 ?
+                <h1> No Tasks Added Yet</h1> :
+                <div className="task-actions" style={{ marginBottom: "1rem" }}>
+                    <button onClick={clearTasks} >
+                        Clear All Tasks
+                    </button>
+                </div>
+            }
             {tasks.map(task => (
-               <h1> {task.id} </h1>
+                <TaskItem key={task.id} task={task} />
             ))}
         </div>
     );
