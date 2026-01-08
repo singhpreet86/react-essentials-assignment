@@ -4,7 +4,7 @@ import { useTaskContext } from "../context/TaskContext"
 
 const TaskForm = () => {
 
-    const {addTask} = useTaskContext();
+    const { addTask } = useTaskContext();
 
     const [formData, setFormData] = useState({
         title: "",
@@ -16,10 +16,11 @@ const TaskForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         addTask(formData);
-    }
+        setFormData({ title: "", description: "" });
+    };
 
-    const handleChange = (e) => {   
-        const {name, value} = e.target;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
 
         setFormData(prev => ({
             ...prev,
@@ -63,7 +64,7 @@ const TaskForm = () => {
 
                 <button type="submit" disabled={!formData.title.trim()}>
                     Add Task
-                </button>    
+                </button>
 
             </form>
         </div>
