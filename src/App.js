@@ -6,15 +6,30 @@ import { useState, useEffect } from 'react';
 function App() {
 
   const API_KEY = "8d1d55987e65fd7428680f71ad1ecb43";
-
-  const [city, setCity] = useState("Mohali");
+  const currentCity = "Mohali";
+  const [city, setCity] = useState("null");
   const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currentCityWeather, setCurrentCityWeather] = useState(null);
-  const [inputCity, setInputCity] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const fetchWeather =  async () => { 
+  const cityWeather = async () => {
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${API_KEY}&units=metric`
+      );
+      if (!response.ok) {
+        throw new Error(`Http Error! status ${response.status}`);
+      }
+      const data = await response.json();
+      setCurrentCityWeather(data);
+    } catch (err) {
+        setError(err.message);
+    }
+  };
+
+
+  const fetchWeather = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -26,31 +41,36 @@ function App() {
       }
       const data = await response.json();
       setWeather(data);
-      if (city === "Mohali"){
-      setCurrentCityWeather(data);
-      }
       setLoading(false);
     } catch (err) {
       setError(err.message);
       setLoading(false);
-      setInputCity(false);
-    } 
+    }
   };
 
   useEffect(() => {
-    fetchWeather();
-  }, [city]); 
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCity(prev => prev);
-    }, 10000);
-
-    return () => clearInterval(timer);
+    cityWeather();
   }, []);
 
 
-  
+  useEffect(() => {
+    if (!city || city === "null") return;
+    fetchWeather();
+  }, [city]);
+
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (city && !error){
+      console.log(`Fetching weather data... for ${city}`);
+      fetchWeather(); }
+    }, 60000);
+
+    return () => clearInterval(timer);
+  }, [city, error]);
+
+
+
   return (
     <div className="App">
       <div className="header">
@@ -58,16 +78,16 @@ function App() {
       </div>
       <div className="content">
         <div className="side-content">
-          <h2>Current Weather in Mohali</h2>
-          {currentCityWeather && <WeatherInfo weather={currentCityWeather} />}          
+          <h2>Current Weather in {currentCity}</h2>
+          {currentCityWeather && <WeatherInfo weather={currentCityWeather} />}
         </div>
         <div className="main-content">
-          <WeatherForm setCity={setCity} setInputCity={setInputCity} />    
+          <WeatherForm setCity={setCity} />
 
           {loading && <p>Loading weather data...</p>}
           {error && <p className="error">{error}</p>}
-          
-          {weather && inputCity && <WeatherInfo weather={weather} />}   
+
+          {weather && city && <WeatherInfo className="weather-info" weather={weather} />}
         </div>
       </div>
     </div>
