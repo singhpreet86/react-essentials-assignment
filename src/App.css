@@ -57,3 +57,11 @@ button:hover {
 button:disabled {
   background-color: #ccc;
 }
+
+.weather-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 10px;
+  background-color: #fafafa;
+}
