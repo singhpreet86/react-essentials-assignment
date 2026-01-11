@@ -1,108 +1,219 @@
 .App{
+    max-width: 1200px;
+    margin:  0 auto;
+    padding:  20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.app-header {
     text-align: center;
-    padding: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    min-height:  100vh;
-    transition: all 0.3s ease;
-}
-
-.counter-container{
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 2px solid #ddd;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100% );
+    color: white;
+    padding: 2rem;
     border-radius: 10px;
-    /* background-color: #f9f9f9; */
-    transition: all 0.3s ease;
-}
-
-.light-theme{
-    background-color: #f9f9f9;
-    color: #333
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 
-.dark-theme{
-    background-color: #333;
-    color: #f9f9f9;
-    border: #555;
+.app-header h1{
+    margin: 0 0 0.5rem 0;
+    font-size:  2.5rem;
+    font-weight: 300;
 }
 
-.button-group {
-    margin: 20px 0;
+.app-header p{
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
 }
 
-.button-group button{
-    margin: 0 10px;
-    padding: 10px 20px;
-    font-size: 18px;
-    border:  none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.2s ease;
+.app-main{
+    margin-top:  2rem;
 }
 
-.button-group button:hover{
-    background-color: #007bff;
+.students-section h2{
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
 }
 
-.name-changer{
-    margin: 20px 0;
-    padding: 15px;
-    border-top: 1px solid #ddd;
+.students-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-.name-changer input{
-    padding: 8px;
-    margin-right: 10px;
-    border:  1px solid #ddd;
-    border-radius:  4px;
-    font-size:  14px;
+.student-card{
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-left: 4px solid #ddd;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.name-changer button {
-    padding:  8px 15px;
-    background-color: #28a745;
-    color: white;
+.student-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.student-card.passed{
+    border-left-color: #4CAF50;
+}
+
+.student-card.failed{
+    border-left-color: #f44336;
+}
+
+.student-info h3{
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.student-info p{
+    margin: 0.5rem 0;
+    color: #666;
+    line-height: 1.4;
+}
+
+
+.student-info strong{
+    color: #333;
+}
+
+.student-status{
+    margin-top: 1rem;
+    text-align:  center;
+}
+
+.status{
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.status-passed{
+    background-color: #E8F5E8;
+    color: #2E7D32
+}
+
+.status-failed{
+    background-color: #FFEBEE;
+    color: #c62828;
+}
+
+
+.add-student-section{
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+.add-student-section h2{
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.add-student-form{
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group{
+    margin-bottom: 1.5rem;
+}
+
+.form-group label{
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group select{
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+.submit-btn{
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: wheat;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.name-changer button:hover{
-    background-color: #218838;    
+.submit-btn:hover{
+    transform: translate(-1px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-.theme-section{
-    margin-top: 20px;
-    padding: 15px;
-    border-top: 1px solid #ddd;
-
+.submit-btn:active{
+    transform: translateY(0);
 }
 
-.theme-section button{
-    padding:  8px 15px;
-    background-color: #6f42c1;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.theme-section button:hover{
-background-color: #5a32a3;
-
-}
-
-.timesection{
-    font-size:  12px;
+.no-students {
+    text-align: center;
+    padding:  3rem;
     color: #666;
     font-style: italic;
-    margin: 15px 0;
 }
 
-.dark-theme .timesection{
-    color: #f9f9f9;
+.no-students p{
+    font-size: 1.1rem;
+}
+
+.student-actions{
+    margin-top: 1rem;
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+.delete-btn{
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.delete-btn:hover{
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+.delete-btn:active{
+    transform: scale(0.98);
 }

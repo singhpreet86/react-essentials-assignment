@@ -5,125 +5,203 @@ class App extends React.Component{
 
     constructor(props){
       super(props);
-      console.log("Constructor: Component is beging created");
       this.state = {
-        counter: 0,
-        userName: 'User',
-        theme: 'light',
-        tempName: '',
-        lastUpdated: null
+        students: [
+          {
+            id: 1,
+            name: 'Manoj',
+            subject: "React",
+            grade: 92,
+            passed: true
+          },
+          {
+            id: 2,
+            name: 'Suraj',
+            subject: "Python",
+            grade: 74,
+            passed: true
+          },
+          {
+            id: 3,
+            name: 'Sonia',
+            subject: "Html",
+            grade: 45,
+            passed: false
+          }
+        ],
+        newStudent:{
+          name: '',
+          subject: '',
+          grade: ''
+        }
       };
     }
 
-  componentDidMount(){
-    console.log("this is where you would typically ");
-    console.log( "Fetch data from api,set up sebscription");
-
-    const savedCount = localStorage.getItem("counterValue");
-
-    if(savedCount){
-      console.log("loading from local ", savedCount);
-      this.setState({counter: savedCount});
-
-    this.setState({lastUpdated: new Date().toLocaleTimeString()});
-  } 
-} 
-
-  componentDidUpdate( prevProps, prevState) {
-    console.log("Component has updted");
-    console.log("previosu state", prevState);
-    console.log("current state", this.state);
-
-    if(prevState.counter !== this.state.counter){
-      console.log("saving to localstorage");
-      localStorage.setItem('counterValue', this.state.counter.toString());
-
-    this.setState({lastUpdated: new Date().toLocaleTimeString()});
-    }
-  }
-
-  componentWillUnmount(){
-    console.log("Componen is about to removed");
-  }
-  incrimentCount = () => {
-     this.setState({counter: this.state.counter + 1}, () =>{
-      console.log("After immidete incriment click");
-    })
-    console.log("count: ", this.state.counter);
-  }  
-
-
-  decrementCount = () => {
-    if(this.state.counter > 0){
-    console.log("Decrement clicked");
-    this.setState({counter: this.state.counter - 1})
-    console.log("count: ", this.state.counter);
-    }else{
-      console.log("Counter shoud be greater then 0");
-    }
-  }
-
-  resetCount = () => {
-    this.setState({counter: 0})
-
-    console.log("reset clicked");
-    
-  }
-
-  toggleTheme = () => {
-    const newTheme = this.state.theme === 'light' ? 'dark' : 'light';
-    this.setState({theme: newTheme});
-  }
-
-  handleNameChange = (event) => {
-    this.setState({tempName: event.target.value});
-  }
-
-  updateUserName = ()=> {
-    if(this.state.tempName.trim()!== ''){
+    handleInputChange = (event) => {
+      const {name, value} = event.target;
+      
       this.setState({
-        userName: this.state.tempName,
-        tempName: ''
-      })
+        newStudent:{
+          ...this.state.newStudent,
+          [name]:value
+        }
+      });
+    };
+
+    handleDeleteStudent = (studentId) => {
+      if(window.confirm("Are yor sure to delete")){
+        this.setState({
+          students: this.state.students.filter(student => student.id !== studentId)
+        });
+      }
     }
-  }
+
+    handleAddSubmit = (event) => {
+      event.preventDefault();
+
+
+      const {name,subject,grade} = this.state.newStudent;
+      if(!name.trim() || !subject || !grade){
+        alert("fill all fields");
+        return;
+      }
+
+      const gradeNumber = parseInt(grade,10);
+
+      if(isNaN(gradeNumber) || gradeNumber <0 || gradeNumber > 100 ){
+        alert("Fill grade between o - 100");
+        return;
+      }
+
+      const newStudent = {
+        id: Date.now(),
+        name: name.trimEnd(),
+        subject: subject,
+        grade: gradeNumber,
+        passed: gradeNumber>=60
+      }
+
+      this.setState({
+        students: [...this.state.students, newStudent],
+        newStudent: {
+          name: '',
+          subject: '',
+          grade: ''
+        }
+      });
+    };
+
+    renderStudentList(){
+      if(this.state.students.length === 0){
+        return(
+          <div className='no-students'>
+            <p> No students added yet, Add you first student</p>
+          </div>
+        )
+      }
+
+      return this.state.students.map(student => (
+        <div key={student.id} className={`student-card ${student.passed ? 'passed': 'failed'}`}>
+          <div className='student-info'>
+              <h3>{student.name}</h3>
+              <p> <strong> Subject:</strong> {student.subject}</p>
+              <p> <strong> Grade:</strong> {student.grade}%</p>
+          </div>
+          <div className='student-status'> 
+              <span className={`status ${student.passed ? 'status-passed': 'status-failed'}`}>
+                {student.passed ? 'PASSED' : 'FAILED'}
+              </span>
+          </div>
+
+          <div className='student-actions'>
+              <button onClick={() => this.handleDeleteStudent(student.id)}
+                className='delete-btn'
+                title="Delete Student"
+                >
+                Delete
+              </button>
+          </div>
+        </div>  
+      ))
+    }
+
 
   render(){
-    const {counter, userName, theme, tempName, lastUpdated} = this.state;
-    const containerClass = `counter-container ${theme}-theme`;
-
     return(
       <div className='App'>
-        <div className={containerClass}>
-          <h1> Hello, {userName}!</h1>
-          <h2> Counter: {counter }</h2>
+        <header className='app-header'>
+          <h1> Student Grade Tracker</h1>
+          <p> Class component design </p>
+        </header>
 
-          {lastUpdated &&  <p className='timesection'> Last update: {lastUpdated}</p>}
+        <main className='app-main'>
+          <section className='students-section'>
+            <h2> Student List ({this.state.students.length})</h2>
+            <div className='students-grid'>
+              {this.renderStudentList()}
+            </div>
+          </section>
 
-          <div className='button-group'>
-          <button onClick={this.incrimentCount}> + </button>
-          <button onClick={this.decrementCount}> - </button>
-          <button onClick={this.resetCount}> Reset </button>
-          </div>
+        <section className='add-student-section'>
+          <h2> Add New Student</h2>
 
+          <form onSubmit={this.handleAddSubmit} className='add-student-form'>
+            <div className='form-group'>
+              <label htmlFor='studentName'> Student Name:</label>
+              <input
+                type="text"
+                id="studentName"
+                name="name"
+                value={this.state.newStudent.name}
+                onChange={this.handleInputChange}
+                placeholder='Enter Full student name'
+              />     
 
-          <div className='name-changer'>
-            <input
-              type='text'
-              value={tempName}
-              onChange={this.handleNameChange}
-              placeholder='Enter new name'
-              />
-              
-              <button onClick={this.updateUserName}>Update Name</button>
+            </div>
 
-          </div>
+            <div className='form-group'>
+              <label htmlFor='studentSubject'> Student Subject:</label>
+              <select
+                id="studentSubject"
+                name="subject"
+                value={this.state.newStudent.subject}
+                onChange={this.handleInputChange}
+                placeholder='Enter Full student name'
+              >
+                <option value=""> Select a Subject</option>
+                <option value="Css">CSS</option>     
+                <option value="Java">Java</option>
+                <option value="Ruby">Ruby</option>
+                <option value="Node">Node</option>
+                <option value="Maths">Maths</option>
+                <option value="English">English</option>
+                <option value="SST">SST</option>
+                </select>
+            </div>
 
-          <div className='theme-section'>
-          <p> Theme: {theme} </p>
-            <button onClick={this.toggleTheme}> Switch to {theme === 'light' ? 'dark' : 'light'}</button>
-          </div>
-          </div>
+             <div className='form-group'>
+              <label htmlFor='studentGrade'> Grade (0-100):</label>
+              <input
+                type="number"
+                id="studentGrade"
+                name="grade"
+                value={this.state.newStudent.grade}
+                onChange={this.handleInputChange}
+                placeholder='Enter grade (0-100)'
+                min="0"
+                max="100"
+              />     
+
+            </div>
+
+            <button type="submit" className='submit-btn'>
+              Add Student
+            </button>
+
+          </form>
+
+        </section>
+        </main>
       </div>
     )
   }
