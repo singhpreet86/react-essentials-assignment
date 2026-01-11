@@ -95,3 +95,14 @@
 background-color: #5a32a3;
 
 }
+
+.timesection{
+    font-size:  12px;
+    color: #666;
+    font-style: italic;
+    margin: 15px 0;
+}
+
+.dark-theme .timesection{
+    color: #f9f9f9;
+}

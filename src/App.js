@@ -5,14 +5,46 @@ class App extends React.Component{
 
     constructor(props){
       super(props);
+      console.log("Constructor: Component is beging created");
       this.state = {
         counter: 0,
         userName: 'User',
         theme: 'light',
-        tempName: ''
+        tempName: '',
+        lastUpdated: null
       };
     }
 
+  componentDidMount(){
+    console.log("this is where you would typically ");
+    console.log( "Fetch data from api,set up sebscription");
+
+    const savedCount = localStorage.getItem("counterValue");
+
+    if(savedCount){
+      console.log("loading from local ", savedCount);
+      this.setState({counter: savedCount});
+
+    this.setState({lastUpdated: new Date().toLocaleTimeString()});
+  } 
+} 
+
+  componentDidUpdate( prevProps, prevState) {
+    console.log("Component has updted");
+    console.log("previosu state", prevState);
+    console.log("current state", this.state);
+
+    if(prevState.counter !== this.state.counter){
+      console.log("saving to localstorage");
+      localStorage.setItem('counterValue', this.state.counter.toString());
+
+    this.setState({lastUpdated: new Date().toLocaleTimeString()});
+    }
+  }
+
+  componentWillUnmount(){
+    console.log("Componen is about to removed");
+  }
   incrimentCount = () => {
      this.setState({counter: this.state.counter + 1}, () =>{
       console.log("After immidete incriment click");
@@ -57,14 +89,16 @@ class App extends React.Component{
   }
 
   render(){
-    const {counter, userName, theme, tempName} = this.state;
+    const {counter, userName, theme, tempName, lastUpdated} = this.state;
     const containerClass = `counter-container ${theme}-theme`;
 
     return(
       <div className='App'>
         <div className={containerClass}>
-          <h1> Hello, {userName} </h1>
+          <h1> Hello, {userName}!</h1>
           <h2> Counter: {counter }</h2>
+
+          {lastUpdated &&  <p className='timesection'> Last update: {lastUpdated}</p>}
 
           <div className='button-group'>
           <button onClick={this.incrimentCount}> + </button>
