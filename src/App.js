@@ -1,83 +1,98 @@
-import React , {useState, useEffect} from "react";
+import React from 'react'
+import './App.css';
 
-function App() {
+class App extends React.Component{
 
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [secondsOnPage, setSecondsOnPage] = useState(0);
-  
-
-  const fetchUser = async () => {
-  try{
-    const response = await fetch('https://jsonplaceholder.typicode.com/users/4');
-    if(!response.ok){
-      throw new Error(`Http Error! status ${response.status}`);
+    constructor(props){
+      super(props);
+      this.state = {
+        counter: 0,
+        userName: 'User',
+        theme: 'light',
+        tempName: ''
+      };
     }
 
-    const userData = await response.json();
-    setUser(userData);
-    setLoading(false);
+  incrimentCount = () => {
+     this.setState({counter: this.state.counter + 1}, () =>{
+      console.log("After immidete incriment click");
+    })
+    console.log("count: ", this.state.counter);
+  }  
+
+
+  decrementCount = () => {
+    if(this.state.counter > 0){
+    console.log("Decrement clicked");
+    this.setState({counter: this.state.counter - 1})
+    console.log("count: ", this.state.counter);
+    }else{
+      console.log("Counter shoud be greater then 0");
+    }
   }
-  catch(err){
-    setError(err.message);
-    setLoading(false);
+
+  resetCount = () => {
+    this.setState({counter: 0})
+
+    console.log("reset clicked");
+    
   }
-}
 
-useEffect(() => {
-  fetchUser();
-},[]);
-
-useEffect(() => {
-  if(user){
-    document.title = `Profile: ${user.name} | Uer Dashboard`;
-  }else{
-    document.title = 'Loading............ | User Dashboard';
+  toggleTheme = () => {
+    const newTheme = this.state.theme === 'light' ? 'dark' : 'light';
+    this.setState({theme: newTheme});
   }
-},[user]);
 
-useEffect(() => {
-  const timer = setInterval(() =>{
-    setSecondsOnPage(prev => prev+1);
-  },1000);
+  handleNameChange = (event) => {
+    this.setState({tempName: event.target.value});
+  }
 
-  return () => {
-    clearInterval(timer);
-  };
+  updateUserName = ()=> {
+    if(this.state.tempName.trim()!== ''){
+      this.setState({
+        userName: this.state.tempName,
+        tempName: ''
+      })
+    }
+  }
 
-},[]);
-  
-  return (
-    <div className="App">
-      <h1>User Profile Dashboard</h1>
-      <p style={{textAlign: 'center', color: '#666', marginBottom: '20px'}}>
-        Time on page: {secondsOnPage} seconds
-      </p>
+  render(){
+    const {counter, userName, theme, tempName} = this.state;
+    const containerClass = `counter-container ${theme}-theme`;
 
-      {error && (
-        <div style={{color: 'red', padding: '20px'}}> 
-            <h2>Error</h2>
-              <p>{error}</p>
-        </div>
-      )}
+    return(
+      <div className='App'>
+        <div className={containerClass}>
+          <h1> Hello, {userName} </h1>
+          <h2> Counter: {counter }</h2>
 
-      {loading && !error && (
-        <div style={{padding: '20px', textAlign: 'center'}}>
-          <p> Loading.................</p>
+          <div className='button-group'>
+          <button onClick={this.incrimentCount}> + </button>
+          <button onClick={this.decrementCount}> - </button>
+          <button onClick={this.resetCount}> Reset </button>
           </div>
-      )}
 
-      {user && !loading && !error && (
-        <div style={{padding: '20px'}}>
-          <h2> User Information</h2>
-          <p> {user.name} </p>
-          <p> {user.email} </p>
-          <p> {user.phone} </p>
-        </div>
-      )}
-    </div>
-  );
+
+          <div className='name-changer'>
+            <input
+              type='text'
+              value={tempName}
+              onChange={this.handleNameChange}
+              placeholder='Enter new name'
+              />
+              
+              <button onClick={this.updateUserName}>Update Name</button>
+
+          </div>
+
+          <div className='theme-section'>
+          <p> Theme: {theme} </p>
+            <button onClick={this.toggleTheme}> Switch to {theme === 'light' ? 'dark' : 'light'}</button>
+          </div>
+          </div>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
