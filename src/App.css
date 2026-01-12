@@ -196,6 +196,9 @@
     text-align: center;
     border-top: 1px solid #eee;
     padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .delete-btn {
@@ -213,6 +216,23 @@
     background-color: #cc0000;
     transform: scale(1.05);
 }
+
+.edit-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.edit-btn:hover {
+    background-color: darkgreen;
+    transform: scale(1.05);
+}
+
 
 .delete-btn:active {
     transform: scale(0.98);
