@@ -6,36 +6,48 @@ class App extends React.Component{
     constructor(props){
       super(props);
       this.state = {
+        students: [],
+        newStudent:{
+          name: '',
+          grade: ''
+        }
+     }
+    };
+
+    componentDidMount() {
+     this.setState({
         students: [
-          {
+            {
             id: 1,
             name: 'Manoj',
-            subject: "React",
             grade: 92,
             passed: true
           },
           {
             id: 2,
             name: 'Suraj',
-            subject: "Python",
             grade: 74,
             passed: true
           },
           {
             id: 3,
             name: 'Sonia',
-            subject: "Html",
             grade: 45,
             passed: false
           }
-        ],
-        newStudent:{
-          name: '',
-          subject: '',
-          grade: ''
-        }
-      };
+        ]        
+      });
     }
+
+    componentDidUpdate( prevProps, prevState) {
+    if(this.state.students.length > prevState.students.length){
+      console.log("New student added");      
+    }
+  }
+
+  componentWillUnmount(){
+    console.log("Component is about to be removed");
+  }
 
     handleInputChange = (event) => {
       const {name, value} = event.target;
@@ -60,8 +72,8 @@ class App extends React.Component{
       event.preventDefault();
 
 
-      const {name,subject,grade} = this.state.newStudent;
-      if(!name.trim() || !subject || !grade){
+      const {name,grade} = this.state.newStudent;
+      if(!name.trim() || !grade){
         alert("fill all fields");
         return;
       }
@@ -76,7 +88,6 @@ class App extends React.Component{
       const newStudent = {
         id: Date.now(),
         name: name.trimEnd(),
-        subject: subject,
         grade: gradeNumber,
         passed: gradeNumber>=60
       }
@@ -85,7 +96,6 @@ class App extends React.Component{
         students: [...this.state.students, newStudent],
         newStudent: {
           name: '',
-          subject: '',
           grade: ''
         }
       });
@@ -104,7 +114,6 @@ class App extends React.Component{
         <div key={student.id} className={`student-card ${student.passed ? 'passed': 'failed'}`}>
           <div className='student-info'>
               <h3>{student.name}</h3>
-              <p> <strong> Subject:</strong> {student.subject}</p>
               <p> <strong> Grade:</strong> {student.grade}%</p>
           </div>
           <div className='student-status'> 
@@ -130,8 +139,8 @@ class App extends React.Component{
     return(
       <div className='App'>
         <header className='app-header'>
-          <h1> Student Grade Tracker</h1>
-          <p> Class component design </p>
+          <h1> Student Grade Tracker Application</h1>
+          <p> Using Class-Based Components & React Lifecycle Methods </p>
         </header>
 
         <main className='app-main'>
@@ -157,27 +166,7 @@ class App extends React.Component{
                 placeholder='Enter Full student name'
               />     
 
-            </div>
-
-            <div className='form-group'>
-              <label htmlFor='studentSubject'> Student Subject:</label>
-              <select
-                id="studentSubject"
-                name="subject"
-                value={this.state.newStudent.subject}
-                onChange={this.handleInputChange}
-                placeholder='Enter Full student name'
-              >
-                <option value=""> Select a Subject</option>
-                <option value="Css">CSS</option>     
-                <option value="Java">Java</option>
-                <option value="Ruby">Ruby</option>
-                <option value="Node">Node</option>
-                <option value="Maths">Maths</option>
-                <option value="English">English</option>
-                <option value="SST">SST</option>
-                </select>
-            </div>
+            </div>           
 
              <div className='form-group'>
               <label htmlFor='studentGrade'> Grade (0-100):</label>
