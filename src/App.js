@@ -112,6 +112,11 @@ class App extends React.Component {
         grade: ''
       }
     });
+
+    this.setState({
+      filter: 'ALL',
+      sortOrder: 'DESC'
+    });
   };
 
   renderStudentList() {
