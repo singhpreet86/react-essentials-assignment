@@ -11,7 +11,8 @@ class App extends React.Component {
         name: '',
         grade: ''
       },
-      filter: 'ALL'
+      filter: 'ALL',
+      sortOrder: 'DESC'
     }
   };
 
@@ -40,6 +41,8 @@ class App extends React.Component {
     });
   }
 
+  statuses = ['ALL', 'PASSED', 'FAILED'];
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.students.length > prevState.students.length) {
       console.log("New student added");
@@ -52,10 +55,12 @@ class App extends React.Component {
 
   handleFilterChange = (filter) => {
     this.setState({ filter: filter });
-    
   };
 
-  statuses = ['ALL', 'PASSED', 'FAILED'];
+
+  handleSortChange = (order) => {
+    this.setState({ sortOrder: order });
+  };
 
 
   handleInputChange = (event) => {
@@ -79,7 +84,6 @@ class App extends React.Component {
 
   handleAddSubmit = (event) => {
     event.preventDefault();
-
 
     const { name, grade } = this.state.newStudent;
     if (!name.trim() || !grade) {
@@ -119,6 +123,17 @@ class App extends React.Component {
       return matchesFilter;
     });
 
+    const sortedAndFileredStudents = filteredStudents.sort((a, b) => {
+      switch (this.state.sortOrder) {
+        case 'ASC':
+          return a.grade - b.grade;
+        case 'DESC':
+          return b.grade - a.grade;
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
+
     if (this.state.students.length === 0) {
       return (
         <div className='no-students'>
@@ -127,7 +142,7 @@ class App extends React.Component {
       )
     }
 
-    return filteredStudents.map(student => (
+    return sortedAndFileredStudents.map(student => (
       <div key={student.id} className={`student-card ${student.passed ? 'passed' : 'failed'}`}>
         <div className='student-info'>
           <h3>{student.name}</h3>
@@ -165,16 +180,29 @@ class App extends React.Component {
             <h2> Student List ({this.state.students.length})</h2>
 
 
-            <div className='filter-sections' style={{ textAlign: 'center', marginBottom: '1rem' }}>
-              <h4> Filter by grade </h4>
+            <div className='filter-sections'>
+              <label htmlFor='filterBy'> Filter by status</label>    
               <div className='filter-buttons'>
-              {this.statuses.map(status =>
-                <button key={status} className={`filter-button ${this.state.filter === status ? 'active' : ''}`}  onClick={() => this.handleFilterChange(status)}>
-                  {status}
-                </button>
-              )}
+                {this.statuses.map(status =>
+                  <button key={status} className={`filter-button ${this.state.filter === status ? 'active' : ''}`} onClick={() => this.handleFilterChange(status)}>
+                    {status}
+                  </button>
+                )}
               </div>
             </div>
+
+            <div className='filter-sections'>
+              <label htmlFor='sortBy'> Sort by grade:</label>    
+              <select className='sort-select'
+                value={this.state.sortOrder}
+                onChange={(e) => this.handleSortChange(e.target.value)}
+              > 
+                <option value="DESC">DESC</option>
+                <option value="ASC">ASC</option>
+             </select>
+            </div>
+
+
 
             <div className='students-grid'>
               {this.renderStudentList()}
