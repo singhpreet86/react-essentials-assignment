@@ -25,7 +25,7 @@ function App() {
       </div>
 
       {app === "portfolioapp" && <PortfolioAppContainer/>}
-      {app === "movieapp" && <MovieAppContainer theme={theme}/>}
+      {app === "movieapp" && <MovieAppContainer/>}
 
     </div>
   );

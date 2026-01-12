@@ -19,6 +19,6 @@ color: white;
 }
 
 .App{
-  min-width: 100vh;
+  min-width: 100vw;
   padding: 20px;
 }
