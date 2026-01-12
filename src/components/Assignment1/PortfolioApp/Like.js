@@ -9,6 +9,12 @@
                     Like
                 </button>
                 <span className="like-count">Likes: {likes}</span>
+                <button 
+                    className="contact-button"
+                    onClick={() => alert("Thanks for contacting! Email has been sent!")}
+                    >
+                    contact
+                </button>
             </div>
         )
     }

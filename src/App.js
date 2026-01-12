@@ -20,13 +20,11 @@ function App() {
         <button onClick={() => setApp("movieapp")} className={app === "portfolioapp" ? "" : "active"}>
             MoveApp
         </button>
-        <button onClick={toggleTheme} className='active'>
-            {theme === "light" ? "🌙 Dark" : " ☀️ Light"}
-        </button>
+   
         
       </div>
 
-      {app === "portfolioapp" && <PortfolioAppContainer theme={theme}/>}
+      {app === "portfolioapp" && <PortfolioAppContainer/>}
       {app === "movieapp" && <MovieAppContainer theme={theme}/>}
 
     </div>
