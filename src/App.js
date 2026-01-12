@@ -12,7 +12,12 @@ class App extends React.Component {
         grade: ''
       },
       filter: 'ALL',
-      sortOrder: 'DESC'
+      sortOrder: 'DESC',
+      editingStudent: {
+        id: null,
+        name: '',
+        grade: ''
+      }
     }
   };
 
@@ -82,6 +87,25 @@ class App extends React.Component {
     }
   }
 
+  handleEditStudent = (student) => {
+  this.setState({
+    editingStudent: student,
+    newStudent: {
+      name: student.name,
+      grade: student.grade
+    }
+  });
+};
+
+handleMarkStudentPassed = (student) => {
+  this.setState({
+    students: this.state.students.map(s =>
+      s.id === student.id ? { ...s, passed: true, grade: 60 } : s
+    )
+  });
+};  
+
+
   handleAddSubmit = (event) => {
     event.preventDefault();
 
@@ -95,6 +119,27 @@ class App extends React.Component {
 
     if (isNaN(gradeNumber) || gradeNumber < 0 || gradeNumber > 100) {
       alert("Fill grade between o - 100");
+      return;
+    }
+
+    if(this.state.editingStudent) {
+      this.setState({
+        students: this.state.students.map(student =>
+          student.id === this.state.editingStudent.id
+            ? { ...student, name: name, grade: gradeNumber, passed: gradeNumber >= 60 }
+            : student
+        ),
+        editingStudent: {
+          id: null,
+          name: '',
+          grade: ''
+        },
+        newStudent: {
+          name: '',
+          grade: ''
+        }
+      });
+
       return;
     }
 
@@ -166,6 +211,23 @@ class App extends React.Component {
           >
             Delete
           </button>
+
+          <button
+            onClick={() => this.handleEditStudent(student)}
+            className='edit-btn'
+          >
+            Edit
+          </button>
+
+          {!student.passed && 
+          <button
+            onClick={() => this.handleMarkStudentPassed(student)}
+            className='edit-btn'
+          >
+            Mark as Passed
+          </button>
+          }
+
         </div>
       </div>
     ))
@@ -247,7 +309,7 @@ class App extends React.Component {
               </div>
 
               <button type="submit" className='submit-btn'>
-                Add Student
+                 {this.state.editingStudent.id ? 'Update Student' : 'Add Student'}
               </button>
 
             </form>
