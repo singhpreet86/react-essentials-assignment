@@ -4,12 +4,7 @@ import MovieAppContainer from './components/Assignment1/MovieApp/MoveAppContaine
 import PortfolioAppContainer from './components/Assignment1/PortfolioApp/PortfolioAppContainer';
 
 function App() {
-  const [theme, setTheme] = useState("light");
   const [app, setApp] = useState("portfolioapp");
-  
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  }
 
   return (
     <div className="App">
