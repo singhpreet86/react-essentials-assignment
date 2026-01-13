@@ -2,24 +2,35 @@ import MovieData from "../Database/MovieData";
 import "./MovieAppContainer.css";
 import { useState } from "react";
 
-function MovieAppContainer(){
-    const [favorites, setFavorites ] = useState([]);
-    const [searchTerm, setSearchTerm ] = useState("");
+function MovieAppContainer() {
+    const [favorites, setFavorites] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     function Favorite() {
         return (
-             <div className="favorite-movies">
+            <div>
                 <h2> Favorite Movies </h2>
                 {favorites.length > 0 ? (
-                    <ul>
-                        {favorites.map((movie, index) => (
-                            <li className="favorite-movie-info" key={index}>{movie.title} ({movie.year}) 
-                                <button className="remove-favorite" onClick={() => removeFromFavorites(movie.id)}>Remove from Favorites</button>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (       
-                <p>No favorite movies added yet.</p>    
+                    favorites.map((movie, index) => (
+                        <div key={index} className="movie-card">
+                            <div className="movie-info">
+                                <h2 className="movie-title">{movie.title}</h2>
+                                <p className="movie-release-year">Release Year: {movie.year}</p>
+                                <p className="movie-genre">Genre: {movie.genre}</p>
+                                <div>
+                                    <span className="rating">{movie.rating}</span>
+                                    {movie.tags.map((tag, index) =>
+                                        <span key={index} className="tag-item">{tag}</span>
+                                    )}
+                                </div>
+                                <div className="movie-actions">
+                                <button className="favorite active-favorite" onClick={() => removeFromFavorites(movie.id)}>❤️ Remove Favorite</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p><strong>No favorite movies added yet.</strong></p>
                 )}
             </div>
         );
@@ -29,12 +40,12 @@ function MovieAppContainer(){
         return favorites.some((movie) => movie.id === movieId);
     }
 
-    const addToFavorites = (movie) => { 
-        if (isFavroute(movie.id)) {    
+    const addToFavorites = (movie) => {
+        if (isFavroute(movie.id)) {
             setFavorites(favorites.filter((fav) => fav.id !== movie.id));
-        } else {       
-        setFavorites([...favorites, movie]);
-        }    
+        } else {
+            setFavorites([...favorites, movie]);
+        }
     };
 
     const removeFromFavorites = (movieId) => {
@@ -42,13 +53,12 @@ function MovieAppContainer(){
         setFavorites(newFavorites);
     };
 
-     const filteredMovies = MovieData.filter((movie) =>
-        movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const filteredMovies = MovieData.filter((movie) =>
         movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         movie.genre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         movie.year.toString().includes(searchTerm) ||
-       movie.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-     );
+        movie.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
 
     return (
@@ -57,46 +67,52 @@ function MovieAppContainer(){
                 <h1> Movie App </h1>
             </div>
             <div className="search-bar">
-                <input 
-                    type="text" 
-                    placeholder="Search movies..." 
-                    value={searchTerm} 
-                    onChange={(e) => setSearchTerm(e.target.value)} 
+                <input
+                    type="text"
+                    placeholder="Search movies..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button onClick={() => setSearchTerm("")}>Reset</button>
-            </div>  
-                    <div className="main-container">
-
-            <div className="movie-container">
-
-                {filteredMovies.length === 0 && (                      
-                    <p className="no-movies-message"> No movies found matching "{searchTerm}"</p>
-                )}
-
-                {filteredMovies.map((movie) => (
-                    <div key={movie.id} className="movie-card">
-                        <div className="movie-info">
-                            <h2 className="movie-title">{movie.title}</h2>
-                            <p className="movie-release-year">Release Year: {movie.year}</p>
-                            <p className="movie-genre">Genre: {movie.genre}</p>
-                            <span className="rating">{movie.rating}</span>
-                            {movie.tags.map((tag, index) => 
-                                <span key={index} className="tag-item">{tag}</span>
-                            )
-                            }
-                            <button className={`favorite ${isFavroute(movie.id) ? "active-favroute" : ""}`} onClick={() => addToFavorites(movie)}> 
-                                {isFavroute(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
-                                
-                                </button>
-                        </div>
-                    </div>
-                ))}
             </div>
-             <div className="favroute-container">   
-            <Favorite />
-              </div>      
-                </div>    
-                      
+            <div className="main-container">
+
+                <div className="movie-container">
+
+                    {filteredMovies.length === 0 && (
+                        <p className="no-movies-message"> <strong>No movies found matching "{searchTerm}" </strong></p>
+                    )}
+
+                    {searchTerm && filteredMovies.length>0 && (
+                        <p className="search-message">{filteredMovies.length} results showing for <strong>"{searchTerm}"</strong></p>
+                    )}
+                    {filteredMovies.map((movie) => (
+                        <div key={movie.id} className="movie-card">
+                            <div className="movie-info">
+                                <h2 className="movie-title">{movie.title}</h2>
+                                <p className="movie-release-year">Release Year: {movie.year}</p>
+                                <p className="movie-genre">Genre: {movie.genre}</p>
+                                <div>
+                                    <span className="rating">{movie.rating}</span>
+                                    {movie.tags.map((tag, index) =>
+                                        <span key={index} className="tag-item">{tag}</span>
+                                    )}
+                                </div>
+                                <div className="movie-actions">
+                                    <button className={`favorite ${isFavroute(movie.id) ? "active-favorite" : ""}`} onClick={() => addToFavorites(movie)}>
+                                        {isFavroute(movie.id) ? "❤️ Remove Favorite" : "🤍 Add Favorite"}
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="favroute-container">
+                    <Favorite />
+                </div>
+            </div>
+
         </div>
     );
 
