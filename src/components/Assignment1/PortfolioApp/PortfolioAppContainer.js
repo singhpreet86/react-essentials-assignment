@@ -6,7 +6,7 @@ import Like from "./Like";
 import { useEffect, useState } from "react";
 
 
-function PortfolioAppContainer({}) {
+function PortfolioAppContainer() {
 
   const [theme, setTheme] = useState("light");
   const [imageIndex, setImageIndex] = useState(0);
@@ -28,7 +28,7 @@ function PortfolioAppContainer({}) {
                 clearInterval(timer);
             };
 
-        },[imageIndex]);
+        });
 
         return (
             <div className={`portfolio-card ${theme}`}>                 
