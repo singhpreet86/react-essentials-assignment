@@ -191,3 +191,127 @@
 .cancel-btn:hover{
   background: #d32f2f;
 }
+
+.post-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.post-header h3{
+  margin: 0;
+  flex: 1;
+}
+
+.post-actions{
+  display: flex;
+  gap: 8px;
+}
+
+.delete-btn{
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  width: 50px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background-color 0.2s, transform 0.1s;
+} 
+
+.delete-btn:hover, .edit-btn:hover{
+  background: #d32f2f;
+  transform: scale(1.05);
+}
+
+.delete-btn:active, .edit-btn:active{
+  transform: scale(0.95);
+}
+
+.edit-btn{
+  background: #2196f3;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  width: 50px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.edit-btn:hover{
+  background: #1976d2;
+  transform: scale(1.05);
+}   
+
+.edit-form{
+  width: 100%;
+}
+
+.edit-input, .edit-textarea{
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #2196f3;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  margin-bottom: 10px;;
+}
+
+.edit-input:focus, .edit-textarea:focus{
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(33,150,243,0.1);
+} 
+
+.edit-actions{
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.save-btn{
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: opacity 0.2s;
+} 
+
+.save-btn:disabled{
+  background-color: #cccccc;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-edit-btn{
+  background: #757575;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cacel-edit-btn:hover{
+  background: #616161;
+}
+
+
+
+
