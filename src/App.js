@@ -118,297 +118,136 @@ when to use custom hooks
 
 
 import React, {useState, useEffect} from 'react';
-import './App.css';
 import './index.css';
+import useExpenses from './hooks/useExpenses';
 
 function App() {
 
-  // const [posts, setPosts] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-  // const [searchTerm, setSearchTerm] = useState('');
-  // const [editingPost, setEditingPost] = useState(null);
+const {expences, addExpense, removeExpense, getTotalAmount, getExpensesByCategory} = useExpenses();
 
-  // const[editForm, setEditForm] = useState({
-  //   title: '',
-  //   body: ''
-  // }); 
-
-  // const[updating, setUpdating] = useState (false);
-
-  // const [showForm, setShowForm] = useState(false);
-  // const [newPost, setNewPost] = useState({
-  //   title: '',
-  //   body: '',
-  //   userId: 1
-  // });
-
-  // const [submitting, setSubmitting] = useState(false);
+//  const[expences, Setexpences] = useState([]);  moved to custom hooks
+ const [description, setDescription] = useState('');
+ const[amount, setAmount] = useState('');
+ const[category, setCategory] = useState('food');
 
 
+ const categories = ['food', 'transport','entertainment','bills', 'shopping','others'];
 
-  //useEffect to fetch when component mounts
+ const handleSubmit = (e) => {
+    e.preventDefault();
 
-  // useEffect( () => {
-  //   fetchPosts();
-  // },[]);
+  if(!description.trim() || !amount){
+    return;
+  }
 
-  //fetch all posts api
+  addExpense({
+    description: description.trim(),
+    amount: parseFloat(amount),
+    category
+  });
+  setDescription('');
+  setAmount('');
+  
+  };
 
-  // const fetchPosts = async() => {
-  //   try{
-  //     setLoading(true); //set loading true when starting request
-
-  //     setError(null); //clear all prev errors
-
-  //     const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-
-  //     if(!response.ok){
-  //       throw new Error(`Httpt error! status: ${response.status}`);
-  //     }
-
-  //     //convert response to JSON
-
-  //     const data = await response.json();
-
-  //     setPosts(data);
-
-  //   }catch(err){
-  //     setError(err.message);
-  //     console.error("Error fetching posts : ", err);
-  //   }finally{
-  //     setLoading(false);
-  //   }
-  // }
-
-
-  //function to create new post
-  // const createPost = async (postData) => {
-  //   try{
-  //     //set submitting state to show loading the form
-  //     setSubmitting(true);
-
-  //     setError(null);
-
-  //     //make post reqquest to create new post
-
-  //     const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-  //       method: 'POST',
-  //       headers:{
-  //         'Content-Type':'application/json'
-  //       },
-  //       body: JSON.stringify(postData)
-
-  //     });
-
-  //   if(!response.ok){
-  //       throw new Error(`Httpt errorQ staus: ${response.status}`);
-  //     }
-
-  //     //  Get the created post data from response
-
-  //     const createdPost = await response.json();
-
-
-  //     //Add new post to begining of or posts array
-
-  //     setPosts(prevPosts => [createdPost, ...prevPosts]);
-
-  //     //reset the form
-
-  //     setNewPost({
-  //       title: '',
-  //       body: '',
-  //       userId: 1
-  //     });
-
-
-  //     //hide the form
-  //     setShowForm(false);
-
-  //     console.log('Post created', createdPost);
-
-  //   }catch(err){
-  //     setError(`Falied to create post ${err.message}`);
-  //     console.error("Error creating post");
-  //   }finally{
-  //     setSubmitting(false);
-  //   }
-  // };
-
-
-  //function to  handle form submission
-
-  // const handleSubmit = (e) => {
+  
+  //commented to use the custom hooks
+  // const addExpense = (e) => {
   //   e.preventDefault();
 
-  //   //validate form
-
-  // if(!newPost.title.trim() || !newPost.body.trim()){
-  //   setError('Fill all the fields');
+  // if(!description.trim() || !amount){
   //   return;
   // }
 
-  // //clear error
-  // setError(null);
-
-  // //call our create function 
-
-  // createPost(newPost);
-
+  // const newExpense = {
+  //   id: Date.now(),
+  //   description: description.trim(),
+  //   amount: parseFloat(amount),
+  //   category,
+  //   date: new Date().toISOString().split('T')[0]
   // };
 
-
-  // //function to handle input changes
-
-  // const handleInputChange = (field, value) => {
-  //   setNewPost(prev => ({
-  //     ...prev,
-  //     [field]: value
-  //   }));
+  // Setexpences([newExpense, ...expences]);
+  // setDescription('');
+  // setAmount('');
   // };
 
-  // const deletePost = async (postId) => {
-  //   try{
-  //     setError(null);
-
-  //     //Make delete request to API
-  //     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
-  //       method: 'DELETE'
-  //     });
-
-
-  //     if(!response.ok){
-  //       throw new Error (`Http error! status: ${response.status}`);
-  //     } 
-
-  //     //remove the deleted post from state
-
-  //     setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
-
-  //     console.log(`Post with id ${postId} deleted successfully`);
-
-
-  //   }catch(err){
-  //     setError(`Failed to delete post: ${err.message}`);
-  //     console.error("Error deleting post", err);
-  //   }
-  // };
-
-  // //function to handle delete with confirmation
-
-  // const handleDelete = (post) => {
-  //   //show confirmation dialog
-  //   const confirmDelete = window.confirm(`Are you sure you want to delete the post titled "${post.title}"?\n\nThis cannot be undone.`);
-
-  //   if(confirmDelete){
-  //     deletePost(post.id);
-  //   } 
-  // };
-
-  // //function to update a post
-
-  // const updatePost = async (postId, updatedData) => {
-  //   try{
-  //     setUpdating(true);
-  //     setError(null);
-
-  //     //make put request to update post
-
-  //     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
-  //       method: 'PUT',
-  //       headers:{
-  //         'Content-Type':'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         id: postId,
-  //         ...updatedData, 
-  //         userId: 1 //assuming userId is 1 for simplicity 
-        
-  //       })
-  //     });
-
-  //     if(!response.ok){
-  //       throw new Error(`Http error! status: ${response.status}`);
-  //     }
-
-  //     //get updated post data from response
-
-  //     const updatedPost = await response.json();
-
-  //     //update the post in state
-
-  //     setPosts (prevPosts => prevPosts.map(post => post.id === postId ? {...post, ...updatedPost } : post));
-
-  //     console.log('Post updated', updatedPost);
-
-  //     //clear editing state
-
-  //     setEditingPost(null);
-  //     setEditForm({
-  //       title: '',
-  //       body: ''
-  //     });
-
-  //   } 
-  //   catch(err){
-  //     setError(`Failed to update post: ${err.message}`);
-  //     console.error("Error updating post", err);
-  //   }finally{
-  //     setUpdating(false);
-  //   }
-  // };
-
-
-  // //function to start editing a post
-
-  // const startEditing = (post) => {
-  //   setEditingPost(post.id);
-  //   setEditForm({
-  //     title: post.title,
-  //     body: post.body
-  //   });
-  // };
-
-  // // function to cancel editing
-
-  // const cancelEditing = () => {
-  //   setEditingPost(null);
-  //   setEditForm({
-  //     title: '',
-  //     body: ''
-  //   });
-  // };
-
-  // // function so sbmit edited 
-
-  // const submitEdit = (e) => {
-  //   //validate form
-  //    if(!editForm.title.trim() || !editForm.body.trim()){
-  //     setError('Fill all the fields');
-  //     return;
-  //   }
-   
-
-  //   updatePost(editingPost, editForm);
-  // }
-
+  // const totalAmount = expences.reduce((sum,expences) => sum+expences.amount,0);
 
 
 
   return (
     <div className="App">
-      <header className='app-header'>
-        <h1> Pessonale expence tracker </h1>
-        <p> We will build step by step</p>
-      </header>
+      <h1> Pessonale Expense Tracker </h1>
 
-      <div className='add-post-section'>
-      </div>  
+      <form className='expense-form' onSubmit={handleSubmit}>
+        <div className='form-group'>
+          <label> Description </label>
+          <input 
+           type='text'
+           value={description}
+           onChange={(e) => setDescription(e.target.value)}
+           placeholder='What did you spend on'
+           required
+           />
+        </div>
 
+        <div className='form-group'>
+          <label> Amount </label>
+          <input 
+           type='number'
+           step='0.1'
+           value={amount}
+           onChange={(e) => setAmount(e.target.value)}
+           placeholder='0.00'
+           required
+           />
+        </div>
 
-    </div>
-  );
+        <div className='form-group'>
+          <label> Category </label>
+          <select value={category}
+           onChange={(e) => setCategory(e.target.value)}>
+
+            { categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase()+cat.slice(1)}
+              </option>
+            ))}
+            </select>
+        </div>
+
+        <button type='submit'>Add Expenses</button>
+
+      </form>
+
+      <div className='expense-list'>
+        {expences.length === 0 ? (
+          <p style={{textAlign: 'center', color: '#666', fontStyle: 'italic'}}> No Expense yet, Add your fist expence above!</p>
+
+        ): (
+          expences.map(expense => (
+            <div key={expense.id} className='expense-item'>
+             <div className='expense-info'>
+              <div className='expense-description'>{expense.description} </div>
+              <div className='expense-category'>{expense.category} </div>
+              <div style={{color: '#666', fontSize: '14px'}}>{expense.date} </div>
+              </div>  
+
+              <div className='expense-amount'> ${expense.amount.toFixed(2)} </div> 
+              <button onClick={() => removeExpense(expense.id)}
+              style={{background: '#e53e3e', padding: '5px 10px', fontSize: '12px'}}>Delete</button>
+            </div>  
+          ))
+        )} 
+      </div>
+
+      <div className='total-section'>
+        <h2> Total Expenses </h2>
+        <div className='total-amount'> ${getTotalAmount().toFixed(2)}</div>
+      </div>    
+  </div>
+  )
 }
 
 export default App;
