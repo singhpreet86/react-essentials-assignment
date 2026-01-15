@@ -115,7 +115,24 @@ when to use custom hooks
 */
 
 
+/* local stoage
 
+Synchronizing API
+string storage only
+domain specific
+5-10 MB storage limit
+
+*/
+// exaples of local storage usage
+
+/*
+localStorage.setItem('key','value'); //store data
+cost value = localStorage.getItem('key'); //retrieve data
+
+localStorage.removeItem('key'); //delete data
+
+localStorage.clear(); //clear all data
+*/
 
 import React, {useState, useEffect} from 'react';
 import './index.css';
@@ -244,7 +261,7 @@ const {expences, addExpense, removeExpense, getTotalAmount, getExpensesByCategor
 
       <div className='total-section'>
         <h2> Total Expenses </h2>
-        <div className='total-amount'> ${getTotalAmount().toFixed(2)}</div>
+        <div className='total-amount'> ${getTotalAmount.toFixed(2)}</div>
       </div>    
   </div>
   )
