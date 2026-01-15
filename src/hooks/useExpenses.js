@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useMemo } from "react";
+import useLocalStorage from "./useLocalStorage";
 
 const useExpenses = () => {
 
-     const[expences, setExpences] = useState([]);
+     const[expences, setExpences] = useLocalStorage('expenses', []);
 
 
      const addExpense = (expenseData) => {
@@ -22,9 +23,9 @@ const useExpenses = () => {
 
      }
     
-     const getTotalAmount = () => {
+     const getTotalAmount = useMemo(() => {
         return expences.reduce((sum,expences) => sum+expences.amount,0);
-     }
+     }, [expences]);
 
      const getExpensesByCategory = (category) => {
         if(!category || category === 'all' ) return expences;
