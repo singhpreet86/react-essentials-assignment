@@ -152,3 +152,41 @@ legend{
   width: auto;
   margin-right: 8px;
 }
+
+.toppings-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 10px
+}
+
+.topping-option{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px; 
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.topping-option:hover{
+  border-color: #f5f5f5;
+  border-color: #d32f2f;
+}
+
+.topping-option input[type="checkbox"]{
+  width: auto;  
+  margin-right: 10px;
+}
+
+.topping-option input[type="checkbox"]:checked + span,
+.topping-option:has(input:checked)
+{
+  background-color: #fff3f3;
+  font-weight: bold;
+  color: #d32f2f;
+}
+
+
