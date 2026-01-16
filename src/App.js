@@ -1,350 +1,229 @@
-/* cusomer hooks, personal expence tracker 
-
-psychology of custom hooks 
-the art of logoc extraction
-state management patterns
-data presistence magic
-real work architecture 
+/* 
+React Forms and User Input
 
 
-Why expences -> ( expences, categories, filters) 
-local storage( saving/loading data)
-calculation logic
-form handling
+-> Traditional HTML from vs React Forms:
+
+
+Controlled Components
+  Why -> single source of truth
+        real  time validation
+        dynamic forms
+        better testing
+
+  How -> state and onChange handlers
+
+uncontrolled Components
 
 
 
-
-state complexity
-data relationships
-real world persisence
-busiines login
-practical value
-
-
-Custom hooks ->
-  starts with use
-  can call other hooks
-  return vaues that component can use
-  encapsulate logic
+Personal info form -> user, name, country etc -> using controled components
 
 */
+import React, { useState } from 'react';
+import './App.css';
 
-//In below functions we have duplicated code for fetching user data
-
-// const UserProfile = () => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null); 
-
-//   useEffect(() => {
-//     fetchUser()
-//     .then(setUser)
-//     .then(setError)
-//     .finally(() => setLoading(false));
-//   }, []);
-
-  
-// }
-
-// const UserSettings = () => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null); 
-
-//   useEffect(() => {
-//     fetchUser()
-//     .then(setUser)
-//     .then(setError)
-//     .finally(() => setLoading(false));
-//   }, []);
-
-  
-// }
-
-//In above functions we have duplicated code for fetching user data
-
-
-//We can extract this logic into a custom hook
-// const useUserData = () => { 
-
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null); 
-
-//   useEffect(() => {
-//     fetchUser()
-//     .then(setUser)
-//     .then(setError)
-//     .finally(() => setLoading(false));
-//   }, []);
-//   return {user, loading, error};
-// }
-
-// const UserProfile = () => {
-//   const {user, loading, error} = useUserData();
-// }
-
-// const UserSetting = () => {
-//   const {user, loading, error} = useUserData();
-// }
-
-
-/* always start with use
-only call at the top level
-only call from react functions
-keep them focused
-can call other hooks
-return values that component can use
-encapsulate logic
-
-
-when to use custom hooks
-- you are copying useState and useEffect logic across multiple components
-  A component has more than 2.4 useState calls
-  your useEffect logic is complex and involves multiple steps
-  you want to share logic between components without repeating code
-  you want to abstract away complex logic for better readability
-  local storage or session storage management
-  form handling and validation
-  data fetching and caching
-  authentication and authorization
-  theming and styling management
-  performance optimizations like debouncing or throttling
-  real-time data handling with websockets or subscriptions
-*/
-
-
-/* local stoage
-
-Synchronizing API
-string storage only
-domain specific
-5-10 MB storage limit
-
-*/
-// exaples of local storage usage
-
-/*
-localStorage.setItem('key','value'); //store data
-cost value = localStorage.getItem('key'); //retrieve data
-
-localStorage.removeItem('key'); //delete data
-
-localStorage.clear(); //clear all data
-*/
-
-import React, {useState, useEffect} from 'react';
-import './index.css';
-import useExpenses from './hooks/useExpenses';
-import useFilters from './hooks/useFilters';
 
 function App() {
 
-const {expences, addExpense, removeExpense, getTotalAmount, getExpensesByCategory} = useExpenses();
-const {
-  filters,
-   updateFilter, 
-   clearFilters, 
-   filteredData: filteredExpenses,
-   getFilterSummary
-   }   = useFilters(expences);
-
-
-//  const[expences, Setexpences] = useState([]);  moved to custom hooks
- const [description, setDescription] = useState('');
- const[amount, setAmount] = useState('');
- const[category, setCategory] = useState('food');
-
-
- const categories = ['all', 'food', 'transport','entertainment','bills', 'shopping','others'];
-
- const handleSubmit = (e) => {
-    e.preventDefault();
-
-  if(!description.trim() || !amount){
-    return;
-  }
-
-  addExpense({
-    description: description.trim(),
-    amount: parseFloat(amount),
-    category
+  const [formData, setFormData] = useState({
+    name: '',    
+    email: '',
+    country: '',
+    bio: '',
+    agreeToTerms: false
   });
-  setDescription('');
-  setAmount('');
+
+  const [errors, setErrors] = useState([]);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  } 
   
+
+  const handleInputChange = (event) => {  
+    const {name, value} = event.target;
+
+    setFormData(prevState => ({ 
+      ...prevState,
+      [name]: value
+    }));
+
+    if(name === 'email'){
+      if(value && !validateEmail(value)){
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          email: 'Invalid email format',
+        }));
+      } else {
+        setErrors(prevErrors => {
+          const newErrors = {...prevErrors};  
+          delete newErrors.email;
+          return newErrors;
+        });
+      }
+    }
   };
 
-  
-  //commented to use the custom hooks
-  // const addExpense = (e) => {
-  //   e.preventDefault();
+  const handleCheckboxChange = (event) => {
+    const {name, checked} = event.target;
 
-  // if(!description.trim() || !amount){
-  //   return;
-  // }
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: checked
+    }));
+  }; 
 
-  // const newExpense = {
-  //   id: Date.now(),
-  //   description: description.trim(),
-  //   amount: parseFloat(amount),
-  //   category,
-  //   date: new Date().toISOString().split('T')[0]
-  // };
+  const validateForm = () => {
+    const newErrors = {};
 
-  // Setexpences([newExpense, ...expences]);
-  // setDescription('');
-  // setAmount('');
-  // };
+    //name validation
 
-  // const totalAmount = expences.reduce((sum,expences) => sum+expences.amount,0);
+    if(!formData.name.trim()){
+      newErrors.name = 'Name is required';
+    }
+
+    if(!formData.email.trim()){
+      newErrors.email = 'Email is required';
+    } else if(!validateEmail(formData.email)){
+      newErrors.email = 'Please enter a valid email';
+    }
+
+    if(!formData.country){
+      newErrors.country = 'Please select a country';
+    }
+
+    if(formData.bio.length > 500){
+      newErrors.bio = 'Bio must be less than 500 characters';
+    } 
+
+    if(!formData.agreeToTerms){
+      newErrors.agreeToTerms = 'You must agree to the terms and conditions';
+    }
+
+   
+    return newErrors;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const formErrors = validateForm();
+
+    if(Object.keys(formErrors).length > 0){
+      setErrors(formErrors);
+      return;
+    } 
+
+     setErrors({});
+     console.log('Form submitted successfully:', formData);
+     alert('Form submitted successfully!');
+
+     resetForm();
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: '',    
+      email: '',
+      country: '',
+      bio: '',
+      agreeToTerms: false
+    });
+    setErrors({});
+  };  
 
 
 
   return (
     <div className="App">
-      <h1> Pessonale Expense Tracker </h1>
+      <h1> Personal Info Form </h1>
 
-      <form className='expense-form' onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <label> Description </label>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor='name'>Name:</label>
           <input 
-           type='text'
-           value={description}
-           onChange={(e) => setDescription(e.target.value)}
-           placeholder='What did you spend on'
-           required
-           />
+            type="text" 
+            id="name" 
+            name='name'
+            value={formData.name} 
+            onChange={handleInputChange} 
+            className={errors.name ? 'error' : ''}
+          />
+          {errors.name && <span className="error-message">{errors.name}</span> }
         </div>
 
-        <div className='form-group'>
-          <label> Amount </label>
+        <div>
+          <label htmlFor='email'>Email:</label>
           <input 
-           type='number'
-           step='0.1'
-           value={amount}
-           onChange={(e) => setAmount(e.target.value)}
-           placeholder='0.00'
-           required
-           />
+            type="email" 
+            id="email" 
+            name='email'
+            value={formData.email} 
+            onChange={handleInputChange} 
+            className={errors.email ? 'error' : ''}
+          />
+
+          {errors.email && <span className="error-message">{errors.email}</span> }
         </div>
 
-        <div className='form-group'>
-          <label> Category </label>
-          <select value={category}
-           onChange={(e) => setCategory(e.target.value)}>
-
-            { categories.slice(1).map(cat => (
-              <option key={cat} value={cat}>
-                {cat.charAt(0).toUpperCase()+cat.slice(1)}
-              </option>
-            ))}
-            </select>
+         <div>
+          <label htmlFor='country'>Country:</label>
+          <select 
+            id="country" 
+            name='country'
+            value={formData.country} 
+            onChange={handleInputChange}
+            className={errors.country ? 'error' : ''}
+          >
+            <option value="">Select Country</option>
+            <option value="us">United States</option>
+            <option value="ca">Canada</option>
+            <option value="uk">United Kingdom</option>
+            <option value="au">Australia</option>
+            <option value="de">Germany</option>
+            <option value="fr">France</option>
+            <option value="in">India</option>
+            <option value="cn">China</option>
+            <option value="jp">Japan</option>
+            <option value="br">Brazil</option>
+          </select>
+          {errors.country && <span className="error-message">{errors.country}</span> }
+        </div>
+        <div>
+          <label htmlFor='bio'>Tell about yourself:</label>
+          <textarea 
+            id="bio" 
+            name='bio'
+            value={formData.bio} 
+            onChange={handleInputChange} 
+            rows={4}
+            placeholder='Share a brief bio about yourelf...'
+            className={errors.bio ? 'error' : ''} 
+          />
+          <small className={`character-count ${formData.bio.length > 450 ? 'warning' : ''}`}>{formData.bio.length}/500 characters</small>
+          {errors.bio && <span className="error-message">{errors.bio}</span> }
         </div>
 
-        <button type='submit'>Add Expenses</button>
+        <div>
+          <label className='checkbox-label'>
+            <input 
+              type="checkbox" 
+              name='agreeToTerms'
+              checked={formData.agreeToTerms} 
+              onChange={handleCheckboxChange}
+              className={errors.agreeToTerms ? 'error' : ''}
+            />
+            I agree to the terms and conditions
+          </label>
+          {errors.agreeToTerms && <span className="error-message">{errors.agreeToTerms}</span> }
+        </div>
 
+        <button type="submit">Submit Form</button>   
       </form>
 
-      <div className='filters'>
-        <div className='form-group'>
-          <label> Filter by Category </label>
-          <select 
-          value={filters.category}
-          onChange={(e) => updateFilter('category', e.target.value)}>
-            {categories.map(cat => (
-              <option key={cat} value={cat}>
-                {cat == 'all' ? "All Categories" : cat.charAt(0).toUpperCase()+cat.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className='form-group'>
-          <label> Search Description </label>
-          <input 
-           type='text'
-           value={filters.searchTerm}
-           onChange={(e) => updateFilter('searchTerm', e.target.value)}
-           placeholder='Search expenses...'
-           />
-        </div>
-
-        <div className='form-group'>
-          <label> Min Amount </label>
-          <input 
-           type='number'
-           step='0.01'
-           value={filters.minAmount}
-           onChange={(e) => updateFilter('minAmount', e.target.value)}
-           placeholder='0.00'
-           />
-        </div>
-    
-            <div className='form-group'>
-          <label> Max Amount </label>
-          <input 
-           type='number'
-           step='0.01'
-           value={filters.maxAmount}
-           onChange={(e) => updateFilter('maxAmount', e.target.value)}
-           placeholder='999.99'
-           />
-        </div>
-
-        {getFilterSummary().hasActiveFilters && (
-            <button 
-              type="button"
-            onClick={clearFilters} 
-            style={{background: '#6c757d'}}>
-              
-               Clear Filters({getFilterSummary.count}) </button>
-        )}
-            
-
-        <div style={{marginTop: '20px 0', padding: '10px',background: '#f8f9fa', borderRadius: '8px'}}>
-          <p> Showing {getFilterSummary().totalResults} results </p>
-          {getFilterSummary().hasActiveFilters && `(${getFilterSummary.activeCount} filter ${getFilterSummary.activeCount !=='1' ? 's' : ''} active)` }
-
-        </div>
-      </div>
-      <div className='expense-list'>
-        {filteredExpenses.length === 0 ? (
-          <p style={{textAlign: 'center', color: '#666', fontStyle: 'italic'}}> 
-          {
-            filteredExpenses.length > 0 ? 
-          "No Expense yet, Add your first expense above!" : 
-          "No expenses match the current filters. Try adjusting your filter criteria."
-          }
-          </p>
-
-        ): (
-          filteredExpenses.map(expense => (
-            <div key={expense.id} className='expense-item'>
-             <div className='expense-info'>
-              <div className='expense-description'>{expense.description} </div>
-              <div className='expense-category'>{expense.category} </div>
-              <div style={{color: '#666', fontSize: '14px'}}>{expense.date} </div>
-              </div>  
-
-              <div className='expense-amount'> ${expense.amount.toFixed(2)} </div> 
-              <button onClick={() => removeExpense(expense.id)}
-              style={{background: '#e53e3e', padding: '5px 10px', fontSize: '12px'}}>Delete</button>
-            </div>  
-          ))
-        )} 
-      </div>
-
-      <div className='total-section'>
-        <h2> Total Expenses </h2>
-        <div className='total-amount'> ${getTotalAmount.toFixed(2)}</div>
-        {getFilterSummary.hasActiveFilters && (
-          <div style={{fontSize: '16px', color: '#666', marginTop: '10px'}}>
-            (Filtered Total: ${filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0).toFixed(2)})
-          </div>
-        )}
-      </div>    
+     
   </div>
   )
 }
