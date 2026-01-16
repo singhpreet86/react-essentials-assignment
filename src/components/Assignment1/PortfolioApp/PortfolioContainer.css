@@ -1,7 +1,7 @@
 .portfolio-container {
     font-family: Arial, sans-serif;
-    padding: 60px 20px;
-    max-width: 600px;
+    padding: 40px 16px;
+    max-width: 90%;
     margin: 0 auto;
     border-radius: 12px;
     background-color: lightgray; 
@@ -11,8 +11,7 @@
 
 .portfolio-card {
     padding: 20px;
-    width: 100%;
-    max-width: 500px;
+    max-width: 520px;
     border-radius: 16px;
     margin: 20px auto;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); 
@@ -119,6 +118,8 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .like-section button{
@@ -163,4 +164,20 @@
     background-color: #1a73e8;
     color: #ffffff;
 }
+
+
+@media (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+
+
 

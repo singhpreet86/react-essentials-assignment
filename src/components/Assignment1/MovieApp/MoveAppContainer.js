@@ -10,8 +10,9 @@ function MovieAppContainer() {
         return (
             <div>
                 <h2> Favorite Movies </h2>
-                {favorites.length > 0 ? (
-                    favorites.map((movie, index) => (
+                {favorites.length > 0 ? ( <>
+                    <p>You have {favorites.length} favorite movie{favorites.length !== 1 && "s"} </p>
+                    {favorites.map((movie, index) => (
                         <div key={index} className="movie-card">
                             <div className="movie-info">
                                 <h2 className="movie-title">{movie.title}</h2>
@@ -28,9 +29,9 @@ function MovieAppContainer() {
                                 </div>
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <p><strong>No favorite movies added yet.</strong></p>
+                    ))}
+                </>) : (
+                    <p>No favorite movies added yet.</p>
                 )}
             </div>
         );
@@ -78,6 +79,10 @@ function MovieAppContainer() {
             <div className="main-container">
 
                 <div className="movie-container">
+
+                    <h2>All Movies</h2>
+                    <p>Browse and add movies to your favorites</p>
+
 
                     {filteredMovies.length === 0 && (
                         <p className="no-movies-message"> <strong>No movies found matching "{searchTerm}" </strong></p>

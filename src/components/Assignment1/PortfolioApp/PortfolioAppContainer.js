@@ -55,9 +55,7 @@ function PortfolioAppContainer() {
                </button>  
 
             {PortfolioData.map((data, index) => (
-                <>
                     <PortfolioCard data={data} key={data.id} />
-                </>
             ))}
 
         </div>
