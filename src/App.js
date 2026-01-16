@@ -1,23 +1,5 @@
 /* 
-React Forms and User Input
-
-
--> Traditional HTML from vs React Forms:
-
-
-Controlled Components
-  Why -> single source of truth
-        real  time validation
-        dynamic forms
-        better testing
-
-  How -> state and onChange handlers
-
-uncontrolled Components
-
-
-
-Personal info form -> user, name, country etc -> using controled components
+maria s piza ordering
 
 */
 import React, { useState } from 'react';
@@ -138,91 +120,32 @@ function App() {
 
   return (
     <div className="App">
-      <h1> Personal Info Form </h1>
+      <header>
+      <h1> Maria's Pizza  - Online ordering </h1>
+      <p>Authentic pizza since 1987</p>
+    </header> 
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='name'>Name:</label>
-          <input 
-            type="text" 
-            id="name" 
-            name='name'
-            value={formData.name} 
-            onChange={handleInputChange} 
-            className={errors.name ? 'error' : ''}
-          />
-          {errors.name && <span className="error-message">{errors.name}</span> }
-        </div>
+    <main>
+      <form className="pizza-order-form" onSubmit={handleSubmit}>
+        <h2>Order Your Pizza</h2>
 
-        <div>
-          <label htmlFor='email'>Email:</label>
-          <input 
-            type="email" 
-            id="email" 
-            name='email'
-            value={formData.email} 
-            onChange={handleInputChange} 
-            className={errors.email ? 'error' : ''}
-          />
+        <section className="customer-info">
+          <h3>Customer Information</h3>  
+          </section>
 
-          {errors.email && <span className="error-message">{errors.email}</span> }
-        </div>
+          <section className="pizzza-customization">
+            <h3>Build your pizza</h3>
+        </section> 
 
-         <div>
-          <label htmlFor='country'>Country:</label>
-          <select 
-            id="country" 
-            name='country'
-            value={formData.country} 
-            onChange={handleInputChange}
-            className={errors.country ? 'error' : ''}
-          >
-            <option value="">Select Country</option>
-            <option value="us">United States</option>
-            <option value="ca">Canada</option>
-            <option value="uk">United Kingdom</option>
-            <option value="au">Australia</option>
-            <option value="de">Germany</option>
-            <option value="fr">France</option>
-            <option value="in">India</option>
-            <option value="cn">China</option>
-            <option value="jp">Japan</option>
-            <option value="br">Brazil</option>
-          </select>
-          {errors.country && <span className="error-message">{errors.country}</span> }
-        </div>
-        <div>
-          <label htmlFor='bio'>Tell about yourself:</label>
-          <textarea 
-            id="bio" 
-            name='bio'
-            value={formData.bio} 
-            onChange={handleInputChange} 
-            rows={4}
-            placeholder='Share a brief bio about yourelf...'
-            className={errors.bio ? 'error' : ''} 
-          />
-          <small className={`character-count ${formData.bio.length > 450 ? 'warning' : ''}`}>{formData.bio.length}/500 characters</small>
-          {errors.bio && <span className="error-message">{errors.bio}</span> }
-        </div>
+        <section className="order-summary">
+          <h3>Order summary</h3>
+        </section>
 
-        <div>
-          <label className='checkbox-label'>
-            <input 
-              type="checkbox" 
-              name='agreeToTerms'
-              checked={formData.agreeToTerms} 
-              onChange={handleCheckboxChange}
-              className={errors.agreeToTerms ? 'error' : ''}
-            />
-            I agree to the terms and conditions
-          </label>
-          {errors.agreeToTerms && <span className="error-message">{errors.agreeToTerms}</span> }
-        </div>
+        <button type='submit'> Place Order - $0.00 </button>
 
-        <button type="submit">Submit Form</button>   
+        
       </form>
-
+    </main>  
      
   </div>
   )
