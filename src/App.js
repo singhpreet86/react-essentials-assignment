@@ -8,115 +8,34 @@ import './App.css';
 
 function App() {
 
-  const [formData, setFormData] = useState({
-    name: '',    
+ const [customerInfo, setCustomerInfo] = useState({
+    name: '',
     email: '',
-    country: '',
-    bio: '',
-    agreeToTerms: false
+    phone: '',
+    address:  '',
+    isDelivery: true
   });
 
-  const [errors, setErrors] = useState([]);
+  //Pizza Customization
+  const [pizzaOrder, setPizzaOrder] = useState({
+    size: 'medium',
+    crust: 'regular',
+    toppings: [],      
+    specialInstructions: ''
+  });
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  } 
-  
+  // UI state for form behavior
 
-  const handleInputChange = (event) => {  
-    const {name, value} = event.target;
+  const [formState, setFormState] = useState({
+    errors: {},
+    isSubmitting: false,
+    showOrderSummary: false,
+  });
 
-    setFormData(prevState => ({ 
-      ...prevState,
-      [name]: value
-    }));
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    if(name === 'email'){
-      if(value && !validateEmail(value)){
-        setErrors(prevErrors => ({
-          ...prevErrors,
-          email: 'Invalid email format',
-        }));
-      } else {
-        setErrors(prevErrors => {
-          const newErrors = {...prevErrors};  
-          delete newErrors.email;
-          return newErrors;
-        });
-      }
-    }
-  };
-
-  const handleCheckboxChange = (event) => {
-    const {name, checked} = event.target;
-
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: checked
-    }));
-  }; 
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    //name validation
-
-    if(!formData.name.trim()){
-      newErrors.name = 'Name is required';
-    }
-
-    if(!formData.email.trim()){
-      newErrors.email = 'Email is required';
-    } else if(!validateEmail(formData.email)){
-      newErrors.email = 'Please enter a valid email';
-    }
-
-    if(!formData.country){
-      newErrors.country = 'Please select a country';
-    }
-
-    if(formData.bio.length > 500){
-      newErrors.bio = 'Bio must be less than 500 characters';
-    } 
-
-    if(!formData.agreeToTerms){
-      newErrors.agreeToTerms = 'You must agree to the terms and conditions';
-    }
-
-   
-    return newErrors;
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const formErrors = validateForm();
-
-    if(Object.keys(formErrors).length > 0){
-      setErrors(formErrors);
-      return;
-    } 
-
-     setErrors({});
-     console.log('Form submitted successfully:', formData);
-     alert('Form submitted successfully!');
-
-     resetForm();
-  };
-
-  const resetForm = () => {
-    setFormData({
-      name: '',    
-      email: '',
-      country: '',
-      bio: '',
-      agreeToTerms: false
-    });
-    setErrors({});
-  };  
-
-
+  }
 
   return (
     <div className="App">
@@ -131,7 +50,95 @@ function App() {
 
         <section className="customer-info">
           <h3>Customer Information</h3>  
-          </section>
+
+          <div className='form-group'>
+            <label htmlFor="name"> Full Name </label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              value={customerInfo.name} 
+              onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})} 
+              placeholder='Enter your full name'
+              required
+            />
+          </div>
+
+           <div className='form-group'>
+            <label htmlFor="customer-phone"> Phone Number </label>
+            <input 
+              type="text" 
+              id="customer-phone" 
+              name="customer-phone" 
+              value={customerInfo.phone} 
+              onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})} 
+              placeholder='(555) 123-4567'
+              required
+            />
+          </div>
+
+          <div className='form-group'>
+            <label htmlFor="customer-email"> Email Address </label>
+            <input 
+              type="email" 
+              id="customer-email" 
+              name="customer-email" 
+              value={customerInfo.email} 
+              onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})}
+              placeholder='you.email@example.com'   
+              required
+            />
+          </div>
+
+          <div className='form-group'>
+            <label htmlFor="customer-address"> Delivery Address </label>
+            <textarea
+              id="customer-address"
+              name="customer-address" 
+              value={customerInfo.address}
+              onChange={(e) => setCustomerInfo({...customerInfo, address: e.target.value})}
+              placeholder='123 Main St, Brooklyn, NY 10001'
+              rows={3}              
+            />
+          </div>
+
+          <div className='form-group'>
+            <fieldset>
+              <legend> Order Type! </legend>
+
+              <div className='radio-group'>
+                <label>
+                  <input 
+                    type="radio" 
+                    name="order-type" 
+                    value="delivery" 
+                    checked={customerInfo.isDelivery === true} 
+                    onChange={() => setCustomerInfo({...customerInfo, isDelivery: true})} 
+                  />
+                  Delivery  (45-60 minutes)
+                </label>
+
+                <label>
+                  <input 
+                    type="radio" 
+                    name="order-type" 
+                    value="pickup" 
+                    checked={customerInfo.isDelivery === false} 
+                    onChange={() => setCustomerInfo({...customerInfo, isDelivery: false})} 
+                  />
+                  Pickup  (20-30 minutes)
+                </label>
+                
+              </div>
+            </fieldset>
+
+            
+
+          </div>
+
+
+          </section>  
+
 
           <section className="pizzza-customization">
             <h3>Build your pizza</h3>
