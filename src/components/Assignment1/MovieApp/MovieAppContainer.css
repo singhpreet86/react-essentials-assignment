@@ -31,8 +31,8 @@ body{
 
 .movie-app {
   padding: 20px;
-  max-width: 90%;
-  margin: 0 auto;
+  max-width: 85%;
+  margin: 0;
   border-radius: 12px;
   background-color: #f9fafc;
   color: #1f2937;
