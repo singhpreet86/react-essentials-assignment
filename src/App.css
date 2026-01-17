@@ -162,32 +162,6 @@ button {
   }
 }
 
-@media (max-width: 768px) {
-  .app-main {
-    flex-direction: column;
-    padding: 1rem;
-  }
-
-  .task-item-content {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-
-  button {
-    width: 100%;
-  }
-
-  .task-actions {
-    flex-direction: column;
-  }
-}
-
-
-
-
-
 .add-task-toggle {
   display: flex;
   align-items: center;
