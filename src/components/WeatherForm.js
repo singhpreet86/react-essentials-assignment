@@ -5,7 +5,7 @@ const WeatherForm = ({ setCity }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCity(input);
+    setCity(input.trim());
     setInput("");
   };
 
