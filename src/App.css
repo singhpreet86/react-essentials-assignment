@@ -1,7 +1,8 @@
 .App {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  height: 100vh;
   background-color: whitesmoke;
 }
 
@@ -9,28 +10,45 @@
   background-color: blue;
   color: white;
   text-align: center;
+  position: sticky;
+  padding: 1rem;
+  top: 0;
+  z-index: 10;
 }
 
 .app-main {
-  display: flex;
-  flex: 1;
-  gap: 2rem;
-  padding: 2rem;
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  height: auto;
+  overflow: hidden;  
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.hide-content{
+  grid-column: 1 / -1;
+}
+
+.main-toggle{
+  margin-bottom: 1rem;
+}
+
+.app-main.no-sidebar{
+  grid-template-columns: 1fr;
 }
 
 .side-bar {
   background-color: white;
-  flex: 1;
   border-radius: 2%;
   padding: 1rem;
-
+  overflow-y: auto;
 }
 
 .content {
   background-color: white;
-  flex: 2;
-  border-radius: 2%;
+  border-radius: 8px;
   padding: 1rem;
+  overflow-y: auto;  
 }
 
 form {
@@ -144,3 +162,56 @@ button {
     flex-direction: column;
   }
 }
+
+
+
+
+
+.add-task-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.2rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.add-task-toggle:hover {
+  color: #4a90e2;
+}
+
+.toggle-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 400;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .app-main {
+    display: flex;
+    flex-direction: column; 
+    height: 100vh;          
+  }
+
+
+  .side-bar {
+  flex: 0 0 auto;        
+   position: relative;     
+   top: auto;
+  }
+
+  .content {
+    flex: 1 1 auto;         
+    overflow-y: auto;      
+    padding: 1rem;
+  }
+}
+
+

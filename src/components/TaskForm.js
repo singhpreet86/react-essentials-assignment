@@ -31,7 +31,6 @@ const TaskForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <h2> Add Task </h2>
                 <label>Title</label>
                 <input
                     type="text"
