@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTaskContext } from "../context/TaskContext";
 import EditTaskModal from "./EditTaskModal";
 
@@ -6,21 +6,32 @@ const TaskItem = ({ task }) => {
     const { toggleTask, deleteTask } = useTaskContext();
     const [showModal, setShowModal] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
-    
+    const [showReadMore, setShowReadMore] = useState(false)
+    const [expanded, setExpanded] = useState(false);
+    const descRef = useRef(null);
 
-    const handleReadMore = () => {
+    useEffect(() => {
+        const el = descRef.current;
+        if (!el) return;
+
+        requestAnimationFrame(() => {
+            setShowReadMore(el.scrollHeight > el.clientHeight);
+        });
+    }, [task.description]);
+
+    const handleEdit = () => {
         setShowModal(true);
     }
 
-    const DeleteConirmation = ({onConfirm, onCancel}) => {
-        return(
+    const DeleteConirmation = ({ onConfirm, onCancel }) => {
+        return (
             <div className="modal-overlay">
                 <div className="modal">
                     <h3>Confirm Delete </h3>
                     <p> Are you sure you want to delete this task ?</p>
                     <div className="modal-actions">
-                    <button onClick={onConfirm} style={{ background: "#c62828"}}> Delete </button>
-                    <button onClick={onCancel}>Cancel</button>
+                        <button onClick={onConfirm} style={{ background: "#c62828" }}> Delete </button>
+                        <button onClick={onCancel}>Cancel</button>
                     </div>
 
                 </div>
@@ -30,70 +41,73 @@ const TaskItem = ({ task }) => {
 
     return (
         <>
-        <div className={`task-item ${task.completed ? "completed" : ""}`}>
-            <div className="task-item-content">
-                <input
-                    type="checkbox"
-                    className="task-checkbox"
-                    checked={task.completed}
-                    onChange={() =>
-                        toggleTask(task.id)
-                    }
-                />
+            <div className={`task-item ${task.completed ? "completed" : ""}`}>
+                <div className="task-item-content">
+                    <input
+                        type="checkbox"
+                        className="task-checkbox"
+                        checked={task.completed}
+                        onChange={() =>
+                            toggleTask(task.id)
+                        }
+                    />
 
-               <div
-                        className="task-details"
-                        style={{ flex: 1 }}
-                    >
-                        <h3>{task.title}</h3>
+                    <div className="task-details">
+                        <p
+                            ref={descRef}
+                            className={`task-desc ${expanded ? "expanded" : ""}`}
+                        >
+                            {task.description}
 
-                        {task.description && (
-                        <p className="task-desc">
-                                
-                        {task.description.length > 100
-                        ? `${task.description.slice(0,200)}...`
-                         : task.description}
-                         
-                         
-                         {task.description.length > 100 && (
-                            <span
-                            onClick={handleReadMore}
-                            style={{color: "blue", cursor: "pointer"}}
-                            > Read More
+                            {!expanded && showReadMore && (
+                                <span
+                                    className="read-more-inline"
+                                    onClick={() => setExpanded(true)}
+                                >
+                                    Read more
+                                </span>
+                            )}
 
-                            </span>
-                         )
-                         }</p>
-                        )}
+                            {expanded && (
+                                <span
+                                    className="read-less-inline"
+                                    onClick={() => setExpanded(false)}
+                                >
+                                    Read less
+                                </span>
+                            )}
+                        </p>
 
 
+                        <div>
                             <span className={`priority-chip ${task.priority}`}>
                                 {task.priority.toUpperCase()}
                             </span>
+                        </div>
                     </div>
 
-           
-            <div className="task-actions">
 
-                <button disabled={task.completed}
-                    onClick={handleReadMore}>Edit</button>
+                    <div className="task-actions">
 
-                <button onClick={() => setShowDelete(true)}>Delete</button>
+                        <button disabled={task.completed}
+                            onClick={handleEdit}>Edit</button>
 
-                {showDelete && (
-                    <DeleteConirmation
-                    onConfirm={() => {deleteTask(task.id); setShowDelete(false)}}
-                    onCancel={() => setShowDelete(false)} />
-                )}    
+                        <button onClick={() => setShowDelete(true)}>Delete</button>
 
-                
+                        {showDelete && (
+                            <DeleteConirmation
+                                onConfirm={() => { deleteTask(task.id); setShowDelete(false) }}
+                                onCancel={() => setShowDelete(false)} />
+                        )}
+
+
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
 
-        {showModal && (
-            <EditTaskModal task={task} onClose={() => setShowModal(false)}/>
-        )}
+            {showModal && (
+                <EditTaskModal task={task} onClose={() => setShowModal(false)} />
+            )}
         </>
     );
 };
