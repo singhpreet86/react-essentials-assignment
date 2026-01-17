@@ -52,7 +52,8 @@ const TaskItem = ({ task }) => {
                         }
                     />
 
-                    <div className="task-details">
+                    <div className="task-details" style={{ textDecoration: task.completed ? "line-through" : "none" }}>
+                        <h3>{task.title}</h3>
                         <p
                             ref={descRef}
                             className={`task-desc ${expanded ? "expanded" : ""}`}
@@ -92,7 +93,7 @@ const TaskItem = ({ task }) => {
                         <button disabled={task.completed}
                             onClick={handleEdit}>Edit</button>
 
-                        <button onClick={() => setShowDelete(true)}>Delete</button>
+                        <button disabled={task.completed} onClick={() => setShowDelete(true)}>Delete</button>
 
                         {showDelete && (
                             <DeleteConirmation
