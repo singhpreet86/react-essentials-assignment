@@ -1,23 +1,35 @@
 import { useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
+import EditTaskModal from "./EditTaskModal";
 
 const TaskItem = ({ task }) => {
-    const { editTask, toggleTask, deleteTask } = useTaskContext();
-    const [isEditing, setIsEditing] = useState(false);
+    const { toggleTask, deleteTask } = useTaskContext();
+    const [showModal, setShowModal] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
+    
 
-    const [editData, setEditData] = useState({
-        title: task.title,
-        description: task.description,
-        priority: task.priority
+    const handleReadMore = () => {
+        setShowModal(true);
+    }
 
-    });
+    const DeleteConirmation = ({onConfirm, onCancel}) => {
+        return(
+            <div className="modal-overlay">
+                <div className="modal">
+                    <h3>Confirm Delete </h3>
+                    <p> Are you sure you want to delete this task ?</p>
+                    <div className="modal-actions">
+                    <button onClick={onConfirm} style={{ background: "#c62828"}}> Delete </button>
+                    <button onClick={onCancel}>Cancel</button>
+                    </div>
 
-    const saveEdit = () => {
-        editTask(task.id, editData);
-        setIsEditing(false);
+                </div>
+            </div>
+        );
     };
 
     return (
+        <>
         <div className={`task-item ${task.completed ? "completed" : ""}`}>
             <div className="task-item-content">
                 <input
@@ -29,61 +41,60 @@ const TaskItem = ({ task }) => {
                     }
                 />
 
-                {isEditing ? (
-                    <div className="task-editing">
-                        <input value={editData.title} onChange={(e) => setEditData(prev => ({ ...prev, title: e.target.value }))} placeholder="Task title ..." />
-
-                        <textarea value={editData.description} onChange={(e) => setEditData(prev => ({ ...prev, description: e.target.value }))} rows="5" placeholder="Task description ..." />
-
-
-                        <select
-                            value={editData.priority}
-                            onChange={(e) =>
-                                setEditData(prev => ({ ...prev, priority: e.target.value }))
-                            }
-                        >
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                        </select>
-                        <button onClick={saveEdit} disabled={!editData.title.trim()}>Save</button>
-                    </div>
-                ) : (
-                    <div
+               <div
                         className="task-details"
-                        style={{ textDecoration: task.completed ? "line-through" : "none" }}
+                        style={{ flex: 1 }}
                     >
                         <h3>{task.title}</h3>
 
                         {task.description && (
-                            <p className="task-desc">{task.description}</p>
+                        <p className="task-desc">
+                                
+                        {task.description.length > 100
+                        ? `${task.description.slice(0,200)}...`
+                         : task.description}
+                         
+                         
+                         {task.description.length > 100 && (
+                            <span
+                            onClick={handleReadMore}
+                            style={{color: "blue", cursor: "pointer"}}
+                            > Read More
+
+                            </span>
+                         )
+                         }</p>
                         )}
 
-                        <div className="task-meta">
-                            <span className={`priority ${task.priority}`}>
+
+                            <span className={`priority-chip ${task.priority}`}>
                                 {task.priority.toUpperCase()}
                             </span>
-                        </div>
                     </div>
 
-                )}
-            </div>
-
-
+           
             <div className="task-actions">
 
                 <button disabled={task.completed}
-                    onClick={() => setIsEditing(!isEditing)}>{isEditing ? "Cancel" : "Edit"}</button>
+                    onClick={handleReadMore}>Edit</button>
 
-                <button disabled={task.completed || isEditing}
-                    onClick={() =>
-                        deleteTask(task.id)
-                    }
-                >
-                    Delete
-                </button>
+                <button onClick={() => setShowDelete(true)}>Delete</button>
+
+                {showDelete && (
+                    <DeleteConirmation
+                    onConfirm={() => {deleteTask(task.id); setShowDelete(false)}}
+                    onCancel={() => setShowDelete(false)} />
+                )}    
+
+                
             </div>
         </div>
+        </div>
+
+        {showModal && (
+            <EditTaskModal task={task} onClose={() => setShowModal(false)}/>
+        )}
+        </>
     );
 };
 

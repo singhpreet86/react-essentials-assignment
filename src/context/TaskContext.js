@@ -15,6 +15,13 @@ export const initialState = {
             description: "Learning API in python",
             completed: false,
             priority: "high"
+        },
+        {
+            id: 3,
+            title: "Learning Mern",
+            description: "The MERN stack is a popular, JavaScript-based collection of technologies (MongoDB, Express, React, Node.js) used to build robust, full-stack web applications, allowing developers to use one language (JavaScript) across the entire development process for both frontend and backend, from database (MongoDB) to server (Node/Express) to user interface (React). It's known for creating scalable, data-driven applications efficiently. ",
+            completed: false,
+            priority: "medium"
         }
     ]
 

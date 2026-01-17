@@ -1,41 +1,42 @@
-import { useState } from "react"
-import { useTaskContext } from "../context/TaskContext"
+import { useState } from  "react";
+import { useTaskContext } from "../context/TaskContext";
 
+const EditTaskModal = ({task, onClose}) => {
+    const {editTask} = useTaskContext();
 
-const TaskForm = () => {
+    const [editData, setEditData] = useState({
+        title: task.title,
+        description: task.description,
+        priority: task.priority
 
-    const { addTask } = useTaskContext();
+    });
 
-    const [formData, setFormData] = useState({
-        title: "",
-        description: "",
-        priority: "medium",
-        completed: false
-    })
-
-    const handleSubmit = (e) => {
+     const saveEdit = (e) => {
         e.preventDefault();
-        addTask(formData);
-        setFormData({ title: "", description: "" });
+        editTask(task.id, editData);
+        onClose();
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setFormData(prev => ({
+        setEditData(prev => ({
             ...prev,
             [name]: value
         }));
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="modal-overlay">
+            <div className="modal">
+            <h2> Edit Task </h2>
+
+            <form onSubmit={saveEdit}>
                 <label>Title</label>
                 <input
                     type="text"
                     name="title"
-                    value={formData.title}
+                    value={editData.title}
                     onChange={handleChange}
                     placeholder="Task title....."
                     required
@@ -44,7 +45,7 @@ const TaskForm = () => {
                 <label>Description</label>
                 <textarea
                     name="description"
-                    value={formData.description}
+                    value={editData.description}
                     onChange={handleChange}
                     placeholder="Task description......"
                     rows="3"
@@ -54,7 +55,7 @@ const TaskForm = () => {
                 <label>Priority</label>
                 <select
                     name="priority"
-                    value={formData.priority}
+                    value={editData.priority}
                     onChange={handleChange}
                 >
                     <option value="low">Low</option>
@@ -62,14 +63,20 @@ const TaskForm = () => {
                     <option value="high">High</option>
                 </select>
 
-                <button type="submit" disabled={!formData.title.trim() || !formData.description.trim()}>
-                    Add Task
+                <div className="modal-actions">
+                <button type="submit" disabled={!editData.title.trim() || !editData.description.trim()  }>
+                    Update Task
                 </button>
+
+                <button type="button" onClick={onClose}>Cancel</button>
+                </div>
 
             </form>
         </div>
+        </div>
     )
 
-}
+};
 
-export default TaskForm;
+
+export default EditTaskModal;

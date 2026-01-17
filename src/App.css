@@ -91,6 +91,16 @@ button {
   animation: fadeIn 0.4s ease-in-out;
 }
 
+.task-desc{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
 .task-item-content {
   display: flex;
   gap: 1rem;
@@ -98,8 +108,10 @@ button {
 
 .task-actions {
   display: flex;
-  gap: 1rem;
   justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: row;
 }
 
 .task-editing {
@@ -113,16 +125,25 @@ button {
   flex: 1;
 }
 
-.priority.low {
-  color: #2e7d32;
+.priority-chip{
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  color: white;
+  margin-top: 0.5rem;
 }
 
-.priority.medium {
-  color: #ef6c00;
+.priority-chip.low {
+  background-color: #2e7d32;
 }
 
-.priority.high {
-  color: #c62828;
+.priority-chip.medium {
+  background-color: #ef6c00;
+}
+
+.priority-chip.high {
+  background-color: #c62828;
 }
 
 .task-summary {
@@ -212,6 +233,40 @@ button {
     overflow-y: auto;      
     padding: 1rem;
   }
+
+  .task-actions{
+    flex-direction: row;
+  }
 }
 
+
+.modal-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background: rgba(0,0,0,0.5)
+}
+
+.modal{
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-actions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 
