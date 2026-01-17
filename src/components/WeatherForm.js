@@ -23,7 +23,7 @@ const WeatherForm = ({ setCity }) => {
         onChange={handleChange}
         required
       />
-      <button type="submit" disabled={!input.trim()}>Get Weather</button>
+      <button type="submit" title="Type city to get weater details" disabled={!input.trim()}>Get Weather</button>
     </form>
   );
 };
