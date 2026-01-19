@@ -320,3 +320,67 @@
 }
 
 
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 20px;
+  }
+
+  .app-header p {
+    font-size: 14px;
+  }
+
+  .students-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .student-card {
+    paddng: 12px;
+  }
+
+  .student-info h3 {
+    font-size: 16px;
+  }
+  .student-info p {
+    font-size: 14px;
+  }
+
+  .add-student-form {
+    gap: 12px;
+  }
+  .add-student-form input {
+    font-size: 14px;
+    padding: 10px;
+  }
+  .submit-btn {
+    width: 107%;
+  }
+
+   .add-student-toggle {
+    padding: 12px;
+    font-size: 16px;
+  }
+  .students-section h2 {
+    margin-left: 20px;
+  }
+
+    .modal {
+    width: 90%;
+    padding: 16px;
+  }
+  .modal h3 {
+    font-size: 18px;
+  }
+  .modal p {
+    font-size: 14px;
+  }
+  .modal button {
+    width: 100%;
+  }
+}
+
+
+
