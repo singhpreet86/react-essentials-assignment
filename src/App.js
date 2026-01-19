@@ -101,12 +101,7 @@ cancelDeleteStudent = () => {
 };
 
 
-
   handleEditStudent = (student) => {
-
-   if (this.state.editingStudent.id !== null) {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    }  
 
   this.setState({
     editingStudent: student,
@@ -115,7 +110,13 @@ cancelDeleteStudent = () => {
       grade: student.grade
     },
     showAddStudentForm: true
-  }); 
+  },
+  () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
 };
 
 handleMarkStudentPassed = (student) => {
