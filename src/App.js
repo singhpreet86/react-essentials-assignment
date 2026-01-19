@@ -83,49 +83,49 @@ class App extends React.Component {
   };
 
   confirmDeleteStudent = () => {
-  this.setState(prevState => ({
-    students: prevState.students.filter(
-      student => student.id !== prevState.studentToDelete
-    ),
-    showDeleteModal: false,
-    studentToDelete: null
+    this.setState(prevState => ({
+      students: prevState.students.filter(
+        student => student.id !== prevState.studentToDelete
+      ),
+      showDeleteModal: false,
+      studentToDelete: null
     }));
   };
 
 
-cancelDeleteStudent = () => {
-  this.setState({
-    showDeleteModal: false,
-    studentToDelete: null
-  });
-};
+  cancelDeleteStudent = () => {
+    this.setState({
+      showDeleteModal: false,
+      studentToDelete: null
+    });
+  };
 
 
   handleEditStudent = (student) => {
 
-  this.setState({
-    editingStudent: student,
-    newStudent: {
-      name: student.name,
-      grade: student.grade
+    this.setState({
+      editingStudent: student,
+      newStudent: {
+        name: student.name,
+        grade: student.grade
+      },
+      showAddStudentForm: true
     },
-    showAddStudentForm: true
-  },
-  () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+      () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
       });
-    });
-};
+  };
 
-handleMarkStudentPassed = (student) => {
-  this.setState({
-    students: this.state.students.map(s =>
-      s.id === student.id ? { ...s, passed: true, grade: 60 } : s
-    )
-  });
-};  
+  handleMarkStudentPassed = (student) => {
+    this.setState({
+      students: this.state.students.map(s =>
+        s.id === student.id ? { ...s, passed: true, grade: 60 } : s
+      )
+    });
+  };
 
 
   handleAddSubmit = (event) => {
@@ -144,7 +144,7 @@ handleMarkStudentPassed = (student) => {
       return;
     }
 
-    if(this.state.editingStudent.id) {
+    if (this.state.editingStudent.id) {
       this.setState({
         students: this.state.students.map(student =>
           student.id === this.state.editingStudent.id
@@ -227,18 +227,18 @@ handleMarkStudentPassed = (student) => {
         </div>
 
         <div className='student-actions'>
-            <button
+          <button
             onClick={() =>
               this.setState({
-              showDeleteModal: true,
-              studentToDelete: student.id
-            })
-          }
-           className='delete-btn'
-           title="Delete Student"
-        >
-         Delete
-        </button>
+                showDeleteModal: true,
+                studentToDelete: student.id
+              })
+            }
+            className='delete-btn'
+            title="Delete Student"
+          >
+            Delete
+          </button>
 
 
 
@@ -249,13 +249,13 @@ handleMarkStudentPassed = (student) => {
             Edit
           </button>
 
-          {!student.passed && 
-          <button
-            onClick={() => this.handleMarkStudentPassed(student)}
-            className='edit-btn'
-          >
-            Mark as Passed
-          </button>
+          {!student.passed &&
+            <button
+              onClick={() => this.handleMarkStudentPassed(student)}
+              className='edit-btn'
+            >
+              Mark as Passed
+            </button>
           }
 
         </div>
@@ -276,86 +276,88 @@ handleMarkStudentPassed = (student) => {
           <section className='students-section'>
 
             <div className='filter-sort-bar'>
-            <div className='filter-sections'>
-              <div className='filter-buttons'>
-                {this.statuses.map(status =>
-                  <button key={status} className={`filter-button ${this.state.filter === status ? 'active' : ''}`} onClick={() => this.handleFilterChange(status)}>
-                    {status}
-                  </button>
+              <div className='filter-sections'>
+                <div className='filter-buttons'>
+                  {this.statuses.map(status =>
+                    <button key={status} className={`filter-button ${this.state.filter === status ? 'active' : ''}`} onClick={() => this.handleFilterChange(status)}>
+                      {status}
+                    </button>
+                  )}
+                </div>
+              </div>
+              <h2> Student List ({this.state.students.length})</h2>
+              <div className='filter-sections'>
+                <label htmlFor='sortBy'> Sort by grade:</label>
+                <select className='sort-select'
+                  value={this.state.sortOrder}
+                  onChange={(e) => this.handleSortChange(e.target.value)}
+                >
+                  <option value="DESC">DESC</option>
+                  <option value="ASC">ASC</option>
+                </select>
+              </div>
+            </div>
+
+            <div
+              className="add-student-toggle"
+              onClick={() =>
+                this.setState(prev => ({
+                  showAddStudentForm: !prev.showAddStudentForm,
+                  editingStudent: { id: null, name: '', grade: '' },
+                  newStudent: { name: '', grade: '' }
+                }))
+              }
+            >
+              <span>
+                {this.state.showAddStudentForm ? "- Hide Add Student" : "+ Add Student"}
+              </span>
+            </div>
+
+            {this.state.showAddStudentForm && (
+              <section className='add-student-section'>
+                {this.state.editingStudent.id ? (
+                  <h2> Edit Student</h2>
+                ) : (
+                  <h2> Add New Student</h2>
                 )}
-              </div>
-            </div>
-            <h2> Student List ({this.state.students.length})</h2>
-            <div className='filter-sections'>
-              <label htmlFor='sortBy'> Sort by grade:</label>    
-              <select className='sort-select'
-                value={this.state.sortOrder}
-                onChange={(e) => this.handleSortChange(e.target.value)}
-              > 
-                <option value="DESC">DESC</option>
-                <option value="ASC">ASC</option>
-             </select>
-            </div>
-            </div>
-        
-          <div
-          className="add-student-toggle"
-          onClick={() =>
-            this.setState(prev => ({
-            showAddStudentForm: !prev.showAddStudentForm
-            }))
-            }
-        >
-        <span>
-          {this.state.showAddStudentForm ? "- Hide Add Student" : "+ Add Student"}
-        </span>
-        </div>
 
-        {this.state.showAddStudentForm && (      
-          <section className='add-student-section'>
-            {this.state.editingStudent.id ? (
-              <h2> Edit Student</h2>
-            ) : ( 
-            <h2> Add New Student</h2>
+                <form onSubmit={this.handleAddSubmit} className='add-student-form'>
+                  <div className='form-group'>
+                    <label htmlFor='studentName'> Student Name:</label>
+                    <input
+                      type="text"
+                      id="studentName"
+                      name="name"
+                      value={this.state.newStudent.name}
+                      onChange={this.handleInputChange}
+                      placeholder='Enter Full student name'
+                    />
+
+                  </div>
+
+                  <div className='form-group'>
+                    <label htmlFor='studentGrade'> Grade (0-100):</label>
+                    <input
+                      type="number"
+                      id="studentGrade"
+                      name="grade"
+                      value={this.state.newStudent.grade}
+                      onChange={this.handleInputChange}
+                      placeholder='Enter grade (0-100)'
+                      min="0"
+                      max="100"
+                    />
+
+                  </div>
+
+                  <button type="submit" className='submit-btn'>
+                    {this.state.editingStudent.id ? 'Update Student' : 'Add Student'}
+                  </button>
+
+                </form>
+
+              </section>
             )}
-
-            <form onSubmit={this.handleAddSubmit} className='add-student-form'>
-              <div className='form-group'>
-                <label htmlFor='studentName'> Student Name:</label>
-                <input
-                  type="text"
-                  id="studentName"
-                  name="name"
-                  value={this.state.newStudent.name}
-                  onChange={this.handleInputChange}
-                  placeholder='Enter Full student name'
-                />
-
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='studentGrade'> Grade (0-100):</label>
-                <input
-                  type="number"
-                  id="studentGrade"
-                  name="grade"
-                  value={this.state.newStudent.grade}
-                  onChange={this.handleInputChange}
-                  placeholder='Enter grade (0-100)'
-                  min="0"
-                  max="100"
-                />
-
-              </div>
-
-              <button type="submit" className='submit-btn'>
-                 {this.state.editingStudent.id ? 'Update Student' : 'Add Student'}
-              </button>
-
-            </form>
-
-          </section>
-        )}
 
 
             <div className='students-grid'>
@@ -366,30 +368,30 @@ handleMarkStudentPassed = (student) => {
 
         </main>
 
-       {this.state.showDeleteModal && (
-         <div className="modal-overlay">
+        {this.state.showDeleteModal && (
+          <div className="modal-overlay">
             <div className="modal">
               <h3>Confirm Delete</h3>
               <p>Are you sure you want to delete this student?</p>
 
               <div className="student-actions">
-              <button
-                onClick={this.confirmDeleteStudent}
-                className="delete-btn"
-              > Delete
-              </button>
+                <button
+                  onClick={this.confirmDeleteStudent}
+                  className="delete-btn"
+                > Delete
+                </button>
 
-              <button
-                onClick={this.cancelDeleteStudent}
-                className="edit-btn"
-              >
-              Cancel
-              </button>
+                <button
+                  onClick={this.cancelDeleteStudent}
+                  className="edit-btn"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
-          )}
-         
+        )}
+
 
       </div>
     )
