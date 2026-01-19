@@ -295,3 +295,19 @@
     gap: 1rem;
     margin-bottom: 1.5rem;
 }
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 400px;
+}
