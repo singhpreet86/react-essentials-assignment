@@ -287,7 +287,6 @@ class App extends React.Component {
               </div>
               <h2> Student List ({this.state.students.length})</h2>
               <div className='filter-sections'>
-                <label htmlFor='sortBy'> Sort by grade:</label>
                 <select className='sort-select'
                   value={this.state.sortOrder}
                   onChange={(e) => this.handleSortChange(e.target.value)}
