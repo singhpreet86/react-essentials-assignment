@@ -19,7 +19,8 @@ class App extends React.Component {
         grade: ''
       },
       showDeleteModal: false,
-      studentToDelete: null
+      studentToDelete: null,
+      showAddStudentForm: false
     }
   };
 
@@ -102,13 +103,19 @@ cancelDeleteStudent = () => {
 
 
   handleEditStudent = (student) => {
+
+   if (this.state.editingStudent.id !== null) {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }  
+
   this.setState({
     editingStudent: student,
     newStudent: {
       name: student.name,
       grade: student.grade
-    }
-  });
+    },
+    showAddStudentForm: true
+  }); 
 };
 
 handleMarkStudentPassed = (student) => {
@@ -136,7 +143,7 @@ handleMarkStudentPassed = (student) => {
       return;
     }
 
-    if(this.state.editingStudent) {
+    if(this.state.editingStudent.id) {
       this.setState({
         students: this.state.students.map(student =>
           student.id === this.state.editingStudent.id
@@ -289,16 +296,27 @@ handleMarkStudentPassed = (student) => {
              </select>
             </div>
             </div>
+        
+          <div
+          className="add-student-toggle"
+          onClick={() =>
+            this.setState(prev => ({
+            showAddStudentForm: !prev.showAddStudentForm
+            }))
+            }
+        >
+        <span>
+          {this.state.showAddStudentForm ? "- Hide Add Student" : "+ Add Student"}
+        </span>
+        </div>
 
-
-
-            <div className='students-grid'>
-              {this.renderStudentList()}
-            </div>
-          </section>
-
+        {this.state.showAddStudentForm && (      
           <section className='add-student-section'>
+            {this.state.editingStudent.id ? (
+              <h2> Edit Student</h2>
+            ) : ( 
             <h2> Add New Student</h2>
+            )}
 
             <form onSubmit={this.handleAddSubmit} className='add-student-form'>
               <div className='form-group'>
@@ -336,6 +354,15 @@ handleMarkStudentPassed = (student) => {
             </form>
 
           </section>
+        )}
+
+
+            <div className='students-grid'>
+              {this.renderStudentList()}
+            </div>
+          </section>
+
+
         </main>
 
        {this.state.showDeleteModal && (
