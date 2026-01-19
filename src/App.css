@@ -40,10 +40,13 @@
 }
 
 .students-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+  padding-right: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .student-card {
@@ -111,6 +114,9 @@
 
 
 .add-student-section {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     background: white;
     padding: 2rem;
     border-radius: 12px;
@@ -383,4 +389,15 @@
 }
 
 
+@media (max-width: 768px) {
+   .add-student-section {
+    position: sticky;
+    top: 0;
+  }
+
+  .students-grid {
+    margin-top: 10px;
+    overflow-y: auto;
+  }
+}
 
