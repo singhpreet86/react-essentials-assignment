@@ -17,7 +17,9 @@ class App extends React.Component {
         id: null,
         name: '',
         grade: ''
-      }
+      },
+      showDeleteModal: false,
+      studentToDelete: null
     }
   };
 
@@ -79,13 +81,25 @@ class App extends React.Component {
     });
   };
 
-  handleDeleteStudent = (studentId) => {
-    if (window.confirm("Are yor sure to delete")) {
-      this.setState({
-        students: this.state.students.filter(student => student.id !== studentId)
-      });
-    }
-  }
+  confirmDeleteStudent = () => {
+  this.setState(prevState => ({
+    students: prevState.students.filter(
+      student => student.id !== prevState.studentToDelete
+    ),
+    showDeleteModal: false,
+    studentToDelete: null
+    }));
+  };
+
+
+cancelDeleteStudent = () => {
+  this.setState({
+    showDeleteModal: false,
+    studentToDelete: null
+  });
+};
+
+
 
   handleEditStudent = (student) => {
   this.setState({
@@ -205,12 +219,20 @@ handleMarkStudentPassed = (student) => {
         </div>
 
         <div className='student-actions'>
-          <button onClick={() => this.handleDeleteStudent(student.id)}
-            className='delete-btn'
-            title="Delete Student"
-          >
-            Delete
-          </button>
+            <button
+            onClick={() =>
+              this.setState({
+              showDeleteModal: true,
+              studentToDelete: student.id
+            })
+          }
+           className='delete-btn'
+           title="Delete Student"
+        >
+         Delete
+        </button>
+
+
 
           <button
             onClick={() => this.handleEditStudent(student)}
@@ -315,6 +337,32 @@ handleMarkStudentPassed = (student) => {
 
           </section>
         </main>
+
+       {this.state.showDeleteModal && (
+         <div className="modal-overlay">
+            <div className="modal">
+              <h3>Confirm Delete</h3>
+              <p>Are you sure you want to delete this student?</p>
+
+              <div className="student-actions">
+              <button
+                onClick={this.confirmDeleteStudent}
+                className="delete-btn"
+              > Delete
+              </button>
+
+              <button
+                onClick={this.cancelDeleteStudent}
+                className="edit-btn"
+              >
+              Cancel
+              </button>
+              </div>
+            </div>
+          </div>
+          )}
+         
+
       </div>
     )
   }
