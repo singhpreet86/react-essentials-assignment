@@ -244,11 +244,9 @@ handleMarkStudentPassed = (student) => {
 
         <main className='app-main'>
           <section className='students-section'>
-            <h2> Student List ({this.state.students.length})</h2>
 
-
+            <div className='filter-sort-bar'>
             <div className='filter-sections'>
-              <label htmlFor='filterBy'> Filter by status</label>    
               <div className='filter-buttons'>
                 {this.statuses.map(status =>
                   <button key={status} className={`filter-button ${this.state.filter === status ? 'active' : ''}`} onClick={() => this.handleFilterChange(status)}>
@@ -257,7 +255,7 @@ handleMarkStudentPassed = (student) => {
                 )}
               </div>
             </div>
-
+            <h2> Student List ({this.state.students.length})</h2>
             <div className='filter-sections'>
               <label htmlFor='sortBy'> Sort by grade:</label>    
               <select className='sort-select'
@@ -267,6 +265,7 @@ handleMarkStudentPassed = (student) => {
                 <option value="DESC">DESC</option>
                 <option value="ASC">ASC</option>
              </select>
+            </div>
             </div>
 
 
