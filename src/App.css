@@ -1,5 +1,5 @@
 .App {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -285,4 +285,13 @@
     border: 2px solid #e0e0e0;
     font-size: 1rem;
     transition: border-color 0.2s ease;
+}
+
+.filter-sort-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
