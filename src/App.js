@@ -102,6 +102,15 @@ class App extends React.Component {
     });
   };
 
+  handleDeleteStudent = (studentId) => {
+  this.setState({
+    showDeleteModal: true,
+    studentToDelete: studentId,
+    showAddStudentForm: false,
+    editingStudent: { id: null, name: '', grade: '' }
+  });
+};
+
 
   handleEditStudent = (student) => {
 
@@ -230,19 +239,11 @@ class App extends React.Component {
 
         <div className='student-actions'>
           <button
-            onClick={() =>
-              this.setState({
-                showDeleteModal: true,
-                studentToDelete: student.id
-              })
-            }
-            className='delete-btn'
-            title="Delete Student"
-          >
-            Delete
-          </button>
-
-
+           onClick={() => this.handleDeleteStudent(student.id)}
+          className='delete-btn'
+        >
+        Delete
+        </button>
 
           <button
             onClick={() => this.handleEditStudent(student)}
