@@ -63,11 +63,13 @@ class App extends React.Component {
 
   handleFilterChange = (filter) => {
     this.setState({ filter: filter });
+    this.setState({ showAddStudentForm: false });
   };
 
 
   handleSortChange = (order) => {
     this.setState({ sortOrder: order });
+    this.setState({ showAddStudentForm: false });
   };
 
 
