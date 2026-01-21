@@ -30,6 +30,7 @@ function App() {
     errors: {},
     isSubmitting: false,
     showOrderSummary: false,
+    currentErrors: {}
   });
 
   //Price calculation
@@ -70,10 +71,119 @@ function App() {
     return total.toFixed(2);
   }
 
+
+  const validateForm = () => {
+    const errors = {};
+
+    // Validate name
+    if (!customerInfo.name.trim()) {
+      errors.name = 'Full name is required';
+    }else if (customerInfo.name.trim().length < 2) {
+      errors.name = 'Full name must be at least 2 characters';
+    }
+
+      // Validate phone
+
+const phoneRegex = /^[\d\s\-()+]{10,}$/;
+    if (!customerInfo.phone.trim()) {
+      errors.phone = 'Phone number is required';
+    } else if (!phoneRegex.test(customerInfo.phone)) {
+      errors.phone = 'Phone number is invalid';
+    }
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!customerInfo.email.trim()) {
+      errors.email = 'Email address is required';
+    } else if (!emailRegex.test(customerInfo.email)) {
+      errors.email = 'Email address is invalid';
+    }
   
 
-  const handleSubmit = (e) => {
+    // Validate address for delivery
+    if (customerInfo.isDelivery && !customerInfo.address.trim()) {
+      errors.address = 'Delivery address is required for delivery orders';
+    }
+
+    //Valide pizza selection
+    if(pizzaOrder.toppings.length === 0 ) {
+      errors.toppings = 'Please select at least one topping';
+    }
+
+    return errors;
+  }
+
+  
+
+  const checkValdation = () => {
+    const errors = validateForm();
+    setFormState(prev => ({...prev, currentErrors: errors}));
+    return Object.keys(errors).length === 0;
+  }
+
+  const handleSubmit = async  (e) => {
     e.preventDefault();
+
+    const isValid = checkValdation();
+
+    if (!isValid) {
+      const firstError = document.querySelector('.error');
+      if (firstError) {
+        firstError.scrollIntoView({behavior: 'smooth', block: 'center'});
+      }
+      return;
+    }
+
+    setFormState(prev => ({...prev, isSubmitting: true}));
+
+
+    try {
+      
+      const orderData = {
+        customerInfo,
+        pizzaOrder,
+        totalPrice: calculateTotalPrice(),
+        orderTime: new Date().toISOString(),
+        estimatedDelivery: customerInfo.isDelivery ?
+          '45-60 minutes' :
+          '20-30 minutes'
+      };
+
+      console.log('Order submitted:', orderData);
+      alert(`Order successfully submitted! Total: $${orderData.totalPrice}`); 
+
+      setCustomerInfo({
+        name: '',
+        email: '',
+        phone: '',
+        address:  '',
+        isDelivery: true
+      });
+
+      setPizzaOrder({
+        size: 'medium',
+        crust: 'regular',
+        toppings: [],      
+        specialInstructions: ''
+      });
+
+      setFormState(prev => ({
+        ...prev,
+        isSubmitting: false,
+        currentErrors: {}
+      }));
+
+
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      alert('There was an error submitting your order. Please try again.');
+      
+    } finally { 
+
+        setFormState(prev => ({...prev, isSubmitting: false}));
+     }
+  
+
 
   }
 
@@ -98,10 +208,31 @@ function App() {
               id="name" 
               name="name" 
               value={customerInfo.name} 
-              onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})} 
+              onChange={(e) => {
+                setCustomerInfo({
+                  ...customerInfo, 
+                  name: e.target.value
+                });
+            
+              if (formState.currentErrors.name) {
+                setFormState(prev => ({
+                  ...prev,
+                  currentErrors: {
+                    ...prev.currentErrors,
+                    name: ''
+                  }
+                }));
+              } 
+            }} 
+
+              onBlur={checkValdation}
+              className={formState.currentErrors.name ? 'error' : ''}
               placeholder='Enter your full name'
               required
             />
+            {formState.currentErrors.name && (
+              <span className='error-message'> {formState.currentErrors.name} </span>
+            )}
           </div>
 
            <div className='form-group'>
@@ -240,6 +371,22 @@ function App() {
                     ))    
                   }
                 </div>
+
+
+                <div className='form-group'>
+                  <label htmlFor="special-instructions"> Special Instructions </label>
+                  <textarea
+                    id="special-instructions"
+                    name="special-instructions"
+                    value={pizzaOrder.specialInstructions}
+                    onChange={(e) => setPizzaOrder({...pizzaOrder, specialInstructions: e.target.value})}
+                    placeholder='Any special requests Eg/- Exctra crispy, light sauce, etc.'
+                    rows={3}
+                    maxLength={200}
+                  />
+                  <small className='character-count'>{pizzaOrder.specialInstructions.length}/200</small>
+
+                </div>
               </fieldset>
             </div>
 
@@ -304,8 +451,21 @@ function App() {
          
         </section>
 
-        <button type='submit' className='submit-btn'> Place Order - ${calculateTotalPrice()} </button>
+        <button type='submit' className='submit-btn' disabled={formState.isSubmitting}>
+          {
+            formState.isSubmitting ? (
+            <>
+            <span className='loading-spinner'></span>
+            Placing your order...
+            </> 
+            
+          ):(
+          
+           `Place Order - ${calculateTotalPrice()}`
+          )
+        }
 
+         </button>
         
       </form>
     </main>  
