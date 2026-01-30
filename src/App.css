@@ -1,42 +1,64 @@
 .App {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .app-header {
-    text-align: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 2rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.app-header h1 {
-    margin: 0 0 0.5rem 0;
-    font-size: 2.5rem;
-    font-weight: 300;
-}
 
 .app-header p {
-    margin: 0;
-    opacity: 0.9;
-    font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+.app-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 300;
 }
 
 .app-main {
-    margin-top: 2rem;
+  margin-top: 2rem;
+}
+
+.student-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #ddd;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.student-card.passed {
+  border-left-color: #4CAF50;
+}
+
+.student-card.failed {
+  border-left-color: #f44336;
 }
 
 .students-section h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
 }
 
 .students-grid {
@@ -49,275 +71,68 @@
   margin-top: 2rem;
 }
 
-.student-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid #ddd;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.student-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.student-card.passed {
-    border-left-color: #4CAF50;
-}
-
-.student-card.failed {
-    border-left-color: #f44336;
+.student-info p {
+  margin: 0.5rem 0;
+  color: #666;
+  line-height: 1.4;
 }
 
 .student-info h3 {
-    margin: 0 0 1rem 0;
-    color: #333;
-    font-size: 1.3rem;
-    font-weight: 500;
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 500;
 }
-
-.student-info p {
-    margin: 0.5rem 0;
-    color: #666;
-    line-height: 1.4;
-}
-
 
 .student-info strong {
-    color: #333;
+  color: #333;
 }
 
 .student-status {
-    margin-top: 1rem;
-    text-align: center;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .status {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.9rem;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
 .status-passed {
-    background-color: #E8F5E8;
-    color: #2E7D32
+  background-color: #E8F5E8;
+  color: #2E7D32
 }
 
 .status-failed {
-    background-color: #FFEBEE;
-    color: #c62828;
+  background-color: #FFEBEE;
+  color: #c62828;
 }
 
-
 .add-student-section {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
 }
 
 .add-student-section h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
 }
 
 .add-student-form {
-    max-width: 500px;
-    margin: 0 auto;
+  max-width: 500px;
+  margin: 0 auto;
 }
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #333;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.2s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.submit-btn {
-    width: 106%;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: wheat;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.submit-btn:hover {
-    transform: translate(-1px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.submit-btn:active {
-    transform: translateY(0);
-}
-
-.no-students {
-    text-align: center;
-    padding: 3rem;
-    color: #666;
-    font-style: italic;
-}
-
-.no-students p {
-    font-size: 1.1rem;
-}
-
-.student-actions {
-    margin-top: 1rem;
-    text-align: center;
-    border-top: 1px solid #eee;
-    padding-top: 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.delete-btn {
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.delete-btn:hover {
-    background-color: #cc0000;
-    transform: scale(1.05);
-}
-
-.edit-btn {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.edit-btn:hover {
-    background-color: darkgreen;
-    transform: scale(1.05);
-}
-
-
-.delete-btn:active {
-    transform: scale(0.98);
-}
-
-.filter-sections {
-    padding: 1rem;
-    text-align: center;
-}
-
-.filter-sections h4 {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #444;
-}
-
-.filter-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-}
-
-.filter-button {
-    padding: 0.5rem 1.25rem;
-    border-radius: 20px;
-    border: 2px solid #667eea;
-    background-color: white;
-    color: #667eea;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.filter-button:hover {
-    background-color: #667eea;
-    color: white;
-}
-
-.filter-button.active {
-    background-color: #667eea;
-    color: white;
-    box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
-}
-
-.sort-select {
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: 2px solid #e0e0e0;
-    font-size: 1rem;
-    transition: border-color 0.2s ease;
-}
-
-.filter-sort-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    width: 400px;
-}
-
 
 .add-student-toggle {
   border-radius: 10px;
@@ -325,35 +140,221 @@
   cursor: pointer;
 }
 
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.submit-btn {
+  width: 106%;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: wheat;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn:hover {
+  transform: translate(-1px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.no-students {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-style: italic;
+}
+
+.no-students p {
+  font-size: 1.1rem;
+}
+
+.student-actions {
+  margin-top: 1rem;
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.delete-btn {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+.edit-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.edit-btn:hover {
+  background-color: darkgreen;
+  transform: scale(1.05);
+}
+
+
+.delete-btn:active {
+  transform: scale(0.98);
+}
+
+.filter-sections {
+  padding: 1rem;
+  text-align: center;
+}
+
+.filter-sections h4 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 0.5rem 1.25rem;
+  border-radius: 20px;
+  border: 2px solid #667eea;
+  background-color: white;
+  color: #667eea;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-button:hover {
+  background-color: #667eea;
+  color: white;
+}
+
+.filter-button.active {
+  background-color: #667eea;
+  color: white;
+  box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
+}
+
+.sort-select {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.filter-sort-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 400px;
+}
 
 @media (max-width: 768px) {
   .app-header h1 {
     font-size: 20px;
   }
-
   .app-header p {
     font-size: 14px;
   }
-
   .students-grid {
     grid-template-columns: 1fr;
   }
 }
 
+@media (max-width: 768px) {
+   .add-student-section {
+    position: sticky;
+    top: 0;
+  }
+  .students-grid {
+    margin-top: 10px;
+    overflow-y: auto;
+  }
+}
 
 @media (max-width: 480px) {
-
   .student-card {
     paddng: 12px;
   }
-
   .student-info h3 {
     font-size: 16px;
   }
   .student-info p {
     font-size: 14px;
   }
-
   .add-student-form {
     gap: 12px;
   }
@@ -364,16 +365,14 @@
   .submit-btn {
     width: 107%;
   }
-
-   .add-student-toggle {
+  .add-student-toggle {
     padding: 12px;
     font-size: 16px;
   }
   .students-section h2 {
     margin-left: 20px;
   }
-
-    .modal {
+  .modal {
     width: 90%;
     padding: 16px;
   }
@@ -389,15 +388,4 @@
 }
 
 
-@media (max-width: 768px) {
-   .add-student-section {
-    position: sticky;
-    top: 0;
-  }
-
-  .students-grid {
-    margin-top: 10px;
-    overflow-y: auto;
-  }
-}
 
