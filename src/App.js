@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import './index.css';
 import useExpenses from './hooks/useExpenses';
 import useFilters from './hooks/useFilters';
@@ -9,7 +9,7 @@ import Summary from './components/Summary';
 
 function App() {
 
-  const { expences, addExpense, removeExpense, getTotalAmount, getExpensesByCategory,getMonthlySummary} = useExpenses();
+  const { expences, addExpense, removeExpense, getTotalAmount, getMonthlySummary} = useExpenses();
   const {
     filters,
     updateFilter,
