@@ -9,7 +9,7 @@ import Summary from './components/Summary';
 
 function App() {
 
-  const { expences, addExpense, removeExpense, getTotalAmount, getMonthlySummary} = useExpenses();
+  const { expences, addExpense, removeExpense, getTotalAmount, getMonthlySummary } = useExpenses();
   const {
     filters,
     updateFilter,
@@ -24,28 +24,32 @@ function App() {
   const [category, setCategory] = useState('food');
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [showForm, setShowForm] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+
+
 
   const categories = ['all', 'food', 'transport', 'entertainment', 'bills', 'shopping', 'others'];
 
   const sortedExpenses = useMemo(() => {
-  const sorted = [...filteredExpenses];
+    const sorted = [...filteredExpenses];
 
-  sorted.sort((a, b) => {
-    let valA = a[sortBy];
-    let valB = b[sortBy];
+    sorted.sort((a, b) => {
+      let valA = a[sortBy];
+      let valB = b[sortBy];
 
-    if (sortBy === 'date') {
-      valA = new Date(valA);
-      valB = new Date(valB);
-    }
+      if (sortBy === 'date') {
+        valA = new Date(valA);
+        valB = new Date(valB);
+      }
 
-    if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
-    if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
-    return 0;
-  });
+      if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
+      if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
 
-  return sorted;
-}, [filteredExpenses, sortBy, sortOrder]);
+    return sorted;
+  }, [filteredExpenses, sortBy, sortOrder]);
 
 
   const handleSubmit = (e) => {
@@ -62,6 +66,7 @@ function App() {
     });
     setDescription('');
     setAmount('');
+    setShowForm(false);
 
   };
 
@@ -72,49 +77,73 @@ function App() {
         <p className="subtitle">Track, filter, and control your spending</p>
       </header>
 
-    <section className="card expense-form-card">
-     <ExpenseForm 
-      description={description} 
-      setDescription={setDescription} 
-      amount={amount} 
-      setAmount={setAmount} 
-      category={category} 
-      setCategory={setCategory} 
-      handleSubmit={handleSubmit} 
-      categories={categories} /> 
-     </section>
 
-      <section className="card filters-card">
-        <Filters
-          filters={filters}
-          updateFilter={updateFilter}
-          clearFilters={clearFilters}
-          categories={categories} 
-          getFilterSummary={getFilterSummary} 
-          sortBy={sortBy}
-          sortOrder={sortOrder}
-          setSortBy={setSortBy}
-          setSortOrder={setSortOrder}/>
-      </section>
+      <div className="form-toggle-text" onClick={() => setShowForm(!showForm)}>
+        <span className="toggle-icon">{showForm ? "−" : "+"}</span>
+        <span className="toggle-label">
+          {showForm ? "Hide Expense Form" : "Add New Expense"}
+        </span>
+      </div>
 
-      
+
+      {showForm && (
+        <section className="card expense-form-card">
+          <ExpenseForm
+            description={description}
+            setDescription={setDescription}
+            amount={amount}
+            setAmount={setAmount}
+            category={category}
+            setCategory={setCategory}
+            handleSubmit={handleSubmit}
+            categories={categories} />
+        </section>
+      )}
+
+      <div
+        className="form-toggle-text"
+        onClick={() => setShowFilters(!showFilters)}
+      >
+        <span className="toggle-icon">{showFilters ? "−" : "+"}</span>
+        <span className="toggle-label">
+          {showFilters ? "Hide Filters" : "Show Filters"}
+        </span>
+      </div>
+
+      {showFilters && (
+
+        <section className="card filters-card">
+          <Filters
+            filters={filters}
+            updateFilter={updateFilter}
+            clearFilters={clearFilters}
+            categories={categories}
+            getFilterSummary={getFilterSummary}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            setSortBy={setSortBy}
+            setSortOrder={setSortOrder} />
+        </section>
+      )}
+
+
       <section className="card expense-list-card">
         <ExpenseList
           filteredExpenses={sortedExpenses}
-          removeExpense={removeExpense} 
+          removeExpense={removeExpense}
           getTotalAmount={getTotalAmount}
-          />  
+        />
       </section>
-     
-      <section className="card total-section">
-       {console.log("Monthly Summary:", getMonthlySummary)}
 
-        <Summary 
-          getTotalAmount={getTotalAmount} 
+      <section className="card total-section">
+        {console.log("Monthly Summary:", getMonthlySummary)}
+
+        <Summary
+          getTotalAmount={getTotalAmount}
           getFilterSummary={getFilterSummary}
           filteredExpenses={sortedExpenses}
           getMonthlySummary={getMonthlySummary}
-          />
+        />
       </section>
     </div>
   )
