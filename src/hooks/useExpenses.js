@@ -32,7 +32,7 @@ const useExpenses = () => {
       return expences.filter(expences => expences.category === category);
    }
 
-   const getMonthlySummary = useMemo(() => {
+  const getMonthlySummary = useMemo(() => {
   const summary = {};
 
   expences.forEach(expense => {
@@ -42,10 +42,7 @@ const useExpenses = () => {
 
     summary[month] += expense.amount;
   });
-
-  // Ensure current month exists
   const currentMonth = new Date().toISOString().slice(0, 7);
-
   if (!summary[currentMonth]) {
     summary[currentMonth] = 0;
   }
