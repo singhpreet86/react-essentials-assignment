@@ -213,6 +213,19 @@ width: 50%;
   button {
     width: 100%;
   }
+  .total-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .monthly-summary {
+    text-align: center; 
+    width: 100%;  
+    margin-top: 15px;   
+  }
+  .total-expences {
+    width: 100%;
+  }
 }
 
 .modal-overlay{
