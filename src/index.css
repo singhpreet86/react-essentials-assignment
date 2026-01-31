@@ -65,7 +65,7 @@ button{
   background: #667eea;
   color: white;
   border: none;
-  padding:4px;
+  padding:12px;
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
@@ -77,13 +77,13 @@ button:hover{
 
 }
 
-.filters{
+/* .filters{
   margin-bottom: 20px;
   display: flex;
   gap: 15px;
   align-items: center;
 
-}
+} */
 
 .expense-list{
   max-height: 400px;
@@ -128,13 +128,13 @@ button:hover{
   font-size: 18px;
 }
 
-.total-section{
+/* .total-section{
   margin-top: 30px;
   padding: 20px;
   background: #f0f4f8;
   border-radius: 8px;
   text-align: center;
-}
+} */
 
 .total-amount{
   font-size: 2rem;
@@ -152,4 +152,59 @@ button:hover{
     align-items: stretch;
   }
   
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin-top: 6px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.expense-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.expense-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.total-section {
+  text-align: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.total-section h2 {
+  margin-bottom: 10px;
+}
+
+.total-amount {
+  font-size: 2.4rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  button {
+    width: 100%;
+  }
 }
