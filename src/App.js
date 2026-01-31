@@ -102,6 +102,7 @@ function App() {
         <ExpenseList
           filteredExpenses={sortedExpenses}
           removeExpense={removeExpense} 
+          getTotalAmount={getTotalAmount}
           />  
       </section>
      
