@@ -1,27 +1,88 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 
-export function useFilters(expenses = [], filters) {
-  return useMemo(() => {
-    let data = expenses.filter(Boolean);
+const useFilters = (data) => {  
+    const [filters, setFilters] = useState({
+        category: 'all',
+        dateFrom: '',
+        dateTo: '', 
+        minAmount: '',
+        maxAmount: '',  
+        searchTerm: ''
+    });
 
-    if (filters.search) {
-      data = data.filter(e =>
-        e.title.toLowerCase().includes(filters.search.toLowerCase())
-      );
-    }
 
-    if (filters.category) {
-      data = data.filter(e => e.category === filters.category);
-    }
+    const updateFilter = (key, value) => {
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            [key]: value
+        }));
+    };
 
-    if (filters.sort === "amount") {
-      data.sort((a, b) => b.amount - a.amount);
-    }
+    const clearFilters = () => {
+        setFilters({
+            category: 'all',
+            dateFrom: '',
+            dateTo: '',
+            minAmount: '',
+            maxAmount: '',
+            searchTerm: ''
+        });
+    };
 
-    if (filters.sort === "date") {
-      data.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }
+    const filteredData = useMemo(() => {
+        return data.filter(item => {
+            //category filter
+            if (filters.category !== 'all' && item.category !== filters.category) {
+                return false;
+            }
 
-    return data;
-  }, [expenses, filters]);
-}
+            //date range filter
+            if (filters.dateFrom && item.date < filters.dateFrom) {
+                return false;
+            }
+            if (filters.dateTo && item.date > filters.dateTo) {
+                return false;
+            }
+
+            //amount range filter
+            if (filters.minAmount && item.amount < parseFloat(filters.minAmount)) {
+                return false;
+            }
+            if (filters.maxAmount && item.amount > parseFloat(filters.maxAmount)) {
+                return false;
+            }
+
+            //search term filter
+            if (filters.searchTerm && !item.description.toLowerCase().includes(filters.searchTerm.toLowerCase())) {
+                return false;
+            }
+
+            return true;
+        });
+    }, [data, filters]);
+
+
+    const getFilterSummary = () => {
+        const activeFilters = Object.entries(filters).filter(([key, value]) => { 
+            if (key === 'category') return value !== 'all';
+            return value !== '';
+        });
+
+              return {
+                activeCount: activeFilters.length,
+                totalResults: filteredData.length,
+                hasActiveFilters: activeFilters.length > 0
+              }
+    };
+
+    return {
+        filters,
+        updateFilter,
+        clearFilters,
+        filteredData,
+        getFilterSummary
+    };      
+
+};
+
+export default useFilters;
