@@ -257,3 +257,27 @@ width: 50%;
   gap: 1rem;
   margin-top: 1rem;
 }
+
+.form-toggle-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 15px;
+  user-select: none;
+}
+
+.form-toggle-text:hover {
+  color: #5a67d8;
+}
+
+.toggle-icon {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.toggle-label {
+  font-size: 16px;
+}
