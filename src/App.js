@@ -1,287 +1,352 @@
-import React from 'react'
-import './App.css';
-import FilterBar from './components/FilterBar';
-import StudentsView from './components/StudentsView';
-import AddEditStudentForm from './components/AddEditStudentForm';
-import DeleteStudentModal from "./components/DeleteStudentModal";
+/* cusomer hooks, personal expence tracker 
 
-class App extends React.Component {
+psychology of custom hooks 
+the art of logoc extraction
+state management patterns
+data presistence magic
+real work architecture 
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      students: [],
-      newStudent: {
-        name: '',
-        grade: ''
-      },
-      filter: 'ALL',
-      sortOrder: 'DESC',
-      editingStudent: {
-        id: null,
-        name: '',
-        grade: ''
-      },
-      showDeleteModal: false,
-      studentToDelete: null,
-      showAddStudentForm: false
-    }
-  };
 
-  statuses = ['ALL', 'PASSED', 'FAILED'];
+Why expences -> ( expences, categories, filters) 
+local storage( saving/loading data)
+calculation logic
+form handling
 
-  componentDidMount() {
-    this.setState({
-      students: [
-        {
-          id: 1,
-          name: 'Manoj',
-          grade: 92,
-          passed: true
-        },
-        {
-          id: 2,
-          name: 'Suraj',
-          grade: 74,
-          passed: true
-        },
-        {
-          id: 3,
-          name: 'Sonia',
-          grade: 45,
-          passed: false
-        }
-      ]
-    });
+
+
+
+state complexity
+data relationships
+real world persisence
+busiines login
+practical value
+
+
+Custom hooks ->
+  starts with use
+  can call other hooks
+  return vaues that component can use
+  encapsulate logic
+
+*/
+
+//In below functions we have duplicated code for fetching user data
+
+// const UserProfile = () => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null); 
+
+//   useEffect(() => {
+//     fetchUser()
+//     .then(setUser)
+//     .then(setError)
+//     .finally(() => setLoading(false));
+//   }, []);
+
+  
+// }
+
+// const UserSettings = () => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null); 
+
+//   useEffect(() => {
+//     fetchUser()
+//     .then(setUser)
+//     .then(setError)
+//     .finally(() => setLoading(false));
+//   }, []);
+
+  
+// }
+
+//In above functions we have duplicated code for fetching user data
+
+
+//We can extract this logic into a custom hook
+// const useUserData = () => { 
+
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null); 
+
+//   useEffect(() => {
+//     fetchUser()
+//     .then(setUser)
+//     .then(setError)
+//     .finally(() => setLoading(false));
+//   }, []);
+//   return {user, loading, error};
+// }
+
+// const UserProfile = () => {
+//   const {user, loading, error} = useUserData();
+// }
+
+// const UserSetting = () => {
+//   const {user, loading, error} = useUserData();
+// }
+
+
+/* always start with use
+only call at the top level
+only call from react functions
+keep them focused
+can call other hooks
+return values that component can use
+encapsulate logic
+
+
+when to use custom hooks
+- you are copying useState and useEffect logic across multiple components
+  A component has more than 2.4 useState calls
+  your useEffect logic is complex and involves multiple steps
+  you want to share logic between components without repeating code
+  you want to abstract away complex logic for better readability
+  local storage or session storage management
+  form handling and validation
+  data fetching and caching
+  authentication and authorization
+  theming and styling management
+  performance optimizations like debouncing or throttling
+  real-time data handling with websockets or subscriptions
+*/
+
+
+/* local stoage
+
+Synchronizing API
+string storage only
+domain specific
+5-10 MB storage limit
+
+*/
+// exaples of local storage usage
+
+/*
+localStorage.setItem('key','value'); //store data
+cost value = localStorage.getItem('key'); //retrieve data
+
+localStorage.removeItem('key'); //delete data
+
+localStorage.clear(); //clear all data
+*/
+
+import React, {useState, useEffect} from 'react';
+import './index.css';
+import useExpenses from './hooks/useExpenses';
+import useFilters from './hooks/useFilters';
+
+function App() {
+
+const {expences, addExpense, removeExpense, getTotalAmount, getExpensesByCategory} = useExpenses();
+const {
+  filters,
+   updateFilter, 
+   clearFilters, 
+   filteredData: filteredExpenses,
+   getFilterSummary
+   }   = useFilters(expences);
+
+
+//  const[expences, Setexpences] = useState([]);  moved to custom hooks
+ const [description, setDescription] = useState('');
+ const[amount, setAmount] = useState('');
+ const[category, setCategory] = useState('food');
+
+
+ const categories = ['all', 'food', 'transport','entertainment','bills', 'shopping','others'];
+
+ const handleSubmit = (e) => {
+    e.preventDefault();
+
+  if(!description.trim() || !amount){
+    return;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.students.length > prevState.students.length) {
-      console.log("New student added");
-    }
-  }
-
-  componentWillUnmount() {
-    console.log("Component is about to be removed");
-  }
-
-  handleFilterChange = (filter) => {
-    this.setState({ filter: filter });
-    this.setState({ showAddStudentForm: false });
+  addExpense({
+    description: description.trim(),
+    amount: parseFloat(amount),
+    category
+  });
+  setDescription('');
+  setAmount('');
+  
   };
 
+  
+  //commented to use the custom hooks
+  // const addExpense = (e) => {
+  //   e.preventDefault();
 
-  handleSortChange = (order) => {
-    this.setState({ sortOrder: order });
-    this.setState({ showAddStudentForm: false });
-  };
+  // if(!description.trim() || !amount){
+  //   return;
+  // }
 
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
+  // const newExpense = {
+  //   id: Date.now(),
+  //   description: description.trim(),
+  //   amount: parseFloat(amount),
+  //   category,
+  //   date: new Date().toISOString().split('T')[0]
+  // };
 
-    this.setState({
-      newStudent: {
-        ...this.state.newStudent,
-        [name]: value
-      }
-    });
-  };
+  // Setexpences([newExpense, ...expences]);
+  // setDescription('');
+  // setAmount('');
+  // };
 
-  confirmDeleteStudent = () => {
-    this.setState(prevState => ({
-      students: prevState.students.filter(
-        student => student.id !== prevState.studentToDelete
-      ),
-      showDeleteModal: false,
-      studentToDelete: null
-    }));
-  };
+  // const totalAmount = expences.reduce((sum,expences) => sum+expences.amount,0);
 
-  cancelDeleteStudent = () => {
-    this.setState({
-      showDeleteModal: false,
-      studentToDelete: null
-    });
-  };
 
-  handleDeleteStudent = (studentId) => {
-    this.setState({
-      showDeleteModal: true,
-      studentToDelete: studentId,
-      showAddStudentForm: false,
-      editingStudent: { id: null, name: '', grade: '' }
-    });
-  };
 
-  handleEditStudent = (student) => {
-    this.setState({
-      editingStudent: student,
-      newStudent: {
-        name: student.name,
-        grade: student.grade
-      },
-      showAddStudentForm: true
-    },
-      () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      });
-  };
+  return (
+    <div className="App">
+      <h1> Pessonale Expense Tracker </h1>
 
-  handleMarkStudentPassed = (student) => {
-    this.setState({
-      students: this.state.students.map(s =>
-        s.id === student.id ? { ...s, passed: true, grade: 60 } : s
-      )
-    });
-  };
+      <form className='expense-form' onSubmit={handleSubmit}>
+        <div className='form-group'>
+          <label> Description </label>
+          <input 
+           type='text'
+           value={description}
+           onChange={(e) => setDescription(e.target.value)}
+           placeholder='What did you spend on'
+           required
+           />
+        </div>
 
-  handleAddSubmit = (event) => {
-    event.preventDefault();
-    const { name, grade } = this.state.newStudent;
-    if (!name.trim() || !grade) {
-      alert("fill all fields");
-      return;
-    }
+        <div className='form-group'>
+          <label> Amount </label>
+          <input 
+           type='number'
+           step='0.1'
+           value={amount}
+           onChange={(e) => setAmount(e.target.value)}
+           placeholder='0.00'
+           required
+           />
+        </div>
 
-    const gradeNumber = parseInt(grade, 10);
+        <div className='form-group'>
+          <label> Category </label>
+          <select value={category}
+           onChange={(e) => setCategory(e.target.value)}>
 
-    if (isNaN(gradeNumber) || gradeNumber < 0 || gradeNumber > 100) {
-      alert("Fill grade between o - 100");
-      return;
-    }
+            { categories.slice(1).map(cat => (
+              <option key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase()+cat.slice(1)}
+              </option>
+            ))}
+            </select>
+        </div>
 
-    if (this.state.editingStudent.id) {
-      this.setState({
-        students: this.state.students.map(student =>
-          student.id === this.state.editingStudent.id
-            ? { ...student, name: name, grade: gradeNumber, passed: gradeNumber >= 60 }
-            : student
-        ),
-        editingStudent: {
-          id: null,
-          name: '',
-          grade: ''
-        },
-        newStudent: {
-          name: '',
-          grade: ''
-        }
-      });
+        <button type='submit'>Add Expenses</button>
 
-      return;
-    }
+      </form>
 
-    const newStudent = {
-      id: Date.now(),
-      name: name.trimEnd(),
-      grade: gradeNumber,
-      passed: gradeNumber >= 60
-    }
+      <div className='filters'>
+        <div className='form-group'>
+          <label> Filter by Category </label>
+          <select 
+          value={filters.category}
+          onChange={(e) => updateFilter('category', e.target.value)}>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat == 'all' ? "All Categories" : cat.charAt(0).toUpperCase()+cat.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
 
-    this.setState({
-      students: [...this.state.students, newStudent],
-      newStudent: {
-        name: '',
-        grade: ''
-      }
-    });
+        <div className='form-group'>
+          <label> Search Description </label>
+          <input 
+           type='text'
+           value={filters.searchTerm}
+           onChange={(e) => updateFilter('searchTerm', e.target.value)}
+           placeholder='Search expenses...'
+           />
+        </div>
 
-    this.setState({
-      filter: 'ALL',
-      sortOrder: 'DESC'
-    });
-  };
+        <div className='form-group'>
+          <label> Min Amount </label>
+          <input 
+           type='number'
+           step='0.01'
+           value={filters.minAmount}
+           onChange={(e) => updateFilter('minAmount', e.target.value)}
+           placeholder='0.00'
+           />
+        </div>
+    
+            <div className='form-group'>
+          <label> Max Amount </label>
+          <input 
+           type='number'
+           step='0.01'
+           value={filters.maxAmount}
+           onChange={(e) => updateFilter('maxAmount', e.target.value)}
+           placeholder='999.99'
+           />
+        </div>
 
-  renderStudentList() {
-   const filteredStudents = this.state.students.filter(student => {
-    const matchesFilter = this.state.filter === 'ALL' ||
-      (this.state.filter === 'PASSED' && student.passed) ||
-        (this.state.filter === 'FAILED' && !student.passed);
-      return matchesFilter;
-    });
+        {getFilterSummary().hasActiveFilters && (
+            <button 
+              type="button"
+            onClick={clearFilters} 
+            style={{background: '#6c757d'}}>
+              
+               Clear Filters({getFilterSummary.count}) </button>
+        )}
+            
 
-    const sortedAndFileredStudents = [...filteredStudents].sort((a, b) => {
-      switch (this.state.sortOrder) {
-        case 'ASC':
-          return a.grade - b.grade;
-        case 'DESC':
-          return b.grade - a.grade;
-        default:
-          return a.name.localeCompare(b.name);
-      }
-    });
+        <div style={{marginTop: '20px 0', padding: '10px',background: '#f8f9fa', borderRadius: '8px'}}>
+          <p> Showing {getFilterSummary().totalResults} results </p>
+          {getFilterSummary().hasActiveFilters && `(${getFilterSummary.activeCount} filter ${getFilterSummary.activeCount !=='1' ? 's' : ''} active)` }
 
-    return (
-      <StudentsView
-        students={sortedAndFileredStudents}
-        onEdit={this.handleEditStudent}
-        onDelete={this.handleDeleteStudent}
-        onMarkPassed={this.handleMarkStudentPassed}
-      />
-    );
-  }
-
-  render() {
-    return (
-      <div className='App'>
-        <header className='app-header'>
-          <h1> Student Grade Tracker Application</h1>
-          <p> Using Class-Based Components & React Lifecycle Methods </p>
-        </header>
-
-        <main className='app-main'>
-          <section className='students-section'>
-
-            <FilterBar
-              statuses={this.statuses}
-              activeFilter={this.state.filter}
-              sortOrder={this.state.sortOrder}
-              onSortChange={this.handleSortChange}
-              onFilterChange={this.handleFilterChange}
-              studentsCount={this.state.students.length}
-            />
-
-            <div
-              className="add-student-toggle"
-              onClick={() =>
-                this.setState(prev => ({
-                  showAddStudentForm: !prev.showAddStudentForm,
-                  editingStudent: { id: null, name: '', grade: '' },
-                  newStudent: { name: '', grade: '' }
-                }))
-              }
-            >
-              <span>
-                {this.state.showAddStudentForm ? "- Hide Add Student" : "+ Add Student"}
-              </span>
-            </div>
-
-            <AddEditStudentForm
-              show={this.state.showAddStudentForm}
-              editingStudent={this.state.editingStudent}
-              student={this.state.newStudent}
-              onInputChange={this.handleInputChange}
-              onSubmit={this.handleAddSubmit}
-            />
-
-            {this.renderStudentList()}
-          </section>
-
-        </main>
-
-          <DeleteStudentModal
-            isOpen={this.state.showDeleteModal}
-            student={this.state.studentToDelete}
-            onCancel={this.cancelDeleteStudent}
-            onConfirm={this.confirmDeleteStudent}
-          />
-
+        </div>
       </div>
-    )
-  }
+      <div className='expense-list'>
+        {filteredExpenses.length === 0 ? (
+          <p style={{textAlign: 'center', color: '#666', fontStyle: 'italic'}}> 
+          {
+            filteredExpenses.length > 0 ? 
+          "No Expense yet, Add your first expense above!" : 
+          "No expenses match the current filters. Try adjusting your filter criteria."
+          }
+          </p>
+
+        ): (
+          filteredExpenses.map(expense => (
+            <div key={expense.id} className='expense-item'>
+             <div className='expense-info'>
+              <div className='expense-description'>{expense.description} </div>
+              <div className='expense-category'>{expense.category} </div>
+              <div style={{color: '#666', fontSize: '14px'}}>{expense.date} </div>
+              </div>  
+
+              <div className='expense-amount'> ${expense.amount.toFixed(2)} </div> 
+              <button onClick={() => removeExpense(expense.id)}
+              style={{background: '#e53e3e', padding: '5px 10px', fontSize: '12px'}}>Delete</button>
+            </div>  
+          ))
+        )} 
+      </div>
+
+      <div className='total-section'>
+        <h2> Total Expenses </h2>
+        <div className='total-amount'> ${getTotalAmount.toFixed(2)}</div>
+        {getFilterSummary.hasActiveFilters && (
+          <div style={{fontSize: '16px', color: '#666', marginTop: '10px'}}>
+            (Filtered Total: ${filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0).toFixed(2)})
+          </div>
+        )}
+      </div>    
+  </div>
+  )
 }
 
-export default App
+export default App;
