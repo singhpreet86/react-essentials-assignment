@@ -3,7 +3,7 @@ Expense Tracker Application
 
 ## 
 Branch: assignment4
-Live link: [https://react-grade-tracker.onrender.com](https://harpreet-expense-tracker.onrender.com)
+Live link: https://harpreet-expense-tracker.onrender.com
 
 ## Installation
 
