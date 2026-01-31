@@ -1,12 +1,35 @@
 import React from "react";
+import { useState } from "react";
 
-const ExpenseList = ({ filteredExpenses, removeExpense }) => {
+const ExpenseList = ({ filteredExpenses, removeExpense, getTotalAmount }) => {
+
+    const [showDelete, setShowDelete] = useState(false);
+    const [expenseToDelete, setExpenseToDelete] = useState(null);
+
+     const DeleteConirmation = ({ onConfirm, onCancel }) => {
+        return (
+            <div className="modal-overlay">
+                <div className="modal">
+                    <h3>Confirm Delete </h3>
+                    <p> Are you sure you want to delete this expense ?</p>
+                    <div className="modal-actions">
+                        <button onClick={onConfirm} style={{ background: "#c62828" }}> Delete </button>
+                        <button onClick={onCancel}>Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        );
+    };
+
+
+
     return (
          <div className='expense-list'>
         {filteredExpenses.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic', margin: '20px' }}>
             {
-              filteredExpenses.length > 0 ?
+              getTotalAmount === 0 ?
                 "No Expense yet, Add your first expense above!" :
                 "No expenses match the current filters. Try adjusting your filter criteria."
             }
@@ -28,12 +51,26 @@ const ExpenseList = ({ filteredExpenses, removeExpense }) => {
             </div>
 
 
-              <button onClick={() => removeExpense(expense.id)}
-                style={{ background: '#e53e3e', padding: '5px 10px', fontSize: '12px' }}>Delete</button>
+              {/* <button onClick={() => removeExpense(expense.id)}
+
+                style={{ background: '#e53e3e', padding: '5px 10px', fontSize: '12px' }}>Delete</button> */}
+
+                <button style={{ background: '#e53e3e', padding: '5px 10px', fontSize: '12px' }} onClick={() => { setShowDelete(true); setExpenseToDelete(expense.id); }}>Delete</button>
+
+                
+
                 </div>
             </div>
+
+            
           ))
         )}
+
+         {showDelete && (
+                            <DeleteConirmation
+                                onConfirm={() => { removeExpense(expenseToDelete); setShowDelete(false) }}
+                                onCancel={() => setShowDelete(false)} />
+                        )}
       </div>
     );
 };
