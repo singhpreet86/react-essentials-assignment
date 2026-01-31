@@ -121,6 +121,12 @@ button:hover{
   font-size: 18px;
 }
 
+.expense-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 
 .total-amount{
   font-size: 2rem;
