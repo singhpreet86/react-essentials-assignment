@@ -27,24 +27,20 @@ const Filters = ({ filters, updateFilter, clearFilters, categories, getFilterSum
           </div>
 
           <div className='form-group'>
-            <label> Min Amount </label>
+            <label> From Date </label>
             <input
-              type='number'
-              step='0.01'
-              value={filters.minAmount}
-              onChange={(e) => updateFilter('minAmount', e.target.value)}
-              placeholder='0.00'
+              type='date'
+              value={filters.dateFrom}
+              onChange={(e) => updateFilter('dateFrom', e.target.value)}
             />
           </div>
 
           <div className='form-group'>
-            <label> Max Amount </label>
+            <label> To Date </label>
             <input
-              type='number'
-              step='0.01'
-              value={filters.maxAmount}
-              onChange={(e) => updateFilter('maxAmount', e.target.value)}
-              placeholder='999.99'
+              type='date'
+              value={filters.dateTo}
+              onChange={(e) => updateFilter('dateTo', e.target.value)}
             />
           </div>
 
