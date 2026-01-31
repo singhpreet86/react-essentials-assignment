@@ -21,7 +21,7 @@ const ExpenseList = ({ filteredExpenses, removeExpense }) => {
                 <div style={{ color: '#666', fontSize: '14px' }}>{expense.date} </div>
               </div>
 
-
+            <div className="expense-right">
               <div className='expense-amount'>
             <span className="currency">$</span>
            <span className="amount">{expense.amount.toFixed(2)}</span>
@@ -30,6 +30,7 @@ const ExpenseList = ({ filteredExpenses, removeExpense }) => {
 
               <button onClick={() => removeExpense(expense.id)}
                 style={{ background: '#e53e3e', padding: '5px 10px', fontSize: '12px' }}>Delete</button>
+                </div>
             </div>
           ))
         )}
