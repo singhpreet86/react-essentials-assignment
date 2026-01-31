@@ -128,13 +128,6 @@ button:hover{
   font-size: 18px;
 }
 
-/* .total-section{
-  margin-top: 30px;
-  padding: 20px;
-  background: #f0f4f8;
-  border-radius: 8px;
-  text-align: center;
-} */
 
 .total-amount{
   font-size: 2rem;
@@ -156,7 +149,7 @@ button:hover{
 
 .app-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .subtitle {
@@ -168,8 +161,8 @@ button:hover{
 .card {
   background: #fff;
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 25px;
+  padding: 10px;
+  margin-bottom: 10px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
