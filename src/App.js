@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './index.css';
 import useExpenses from './hooks/useExpenses';
 import useFilters from './hooks/useFilters';
@@ -9,22 +9,44 @@ import Summary from './components/Summary';
 
 function App() {
 
-  const { expences, addExpense, removeExpense, getTotalAmount, getExpensesByCategory } = useExpenses();
+  const { expences, addExpense, removeExpense, getTotalAmount, getExpensesByCategory,getMonthlySummary} = useExpenses();
   const {
     filters,
     updateFilter,
     clearFilters,
     filteredData: filteredExpenses,
-    getFilterSummary
+    getFilterSummary,
   } = useFilters(expences);
 
 
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('food');
-
+  const [sortBy, setSortBy] = useState('date');
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const categories = ['all', 'food', 'transport', 'entertainment', 'bills', 'shopping', 'others'];
+
+  const sortedExpenses = useMemo(() => {
+  const sorted = [...filteredExpenses];
+
+  sorted.sort((a, b) => {
+    let valA = a[sortBy];
+    let valB = b[sortBy];
+
+    if (sortBy === 'date') {
+      valA = new Date(valA);
+      valB = new Date(valB);
+    }
+
+    if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
+    if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  return sorted;
+}, [filteredExpenses, sortBy, sortOrder]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,20 +90,29 @@ function App() {
           updateFilter={updateFilter}
           clearFilters={clearFilters}
           categories={categories} 
-          getFilterSummary={getFilterSummary} />
+          getFilterSummary={getFilterSummary} 
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          setSortBy={setSortBy}
+          setSortOrder={setSortOrder}/>
       </section>
 
+      
       <section className="card expense-list-card">
         <ExpenseList
-          filteredExpenses={filteredExpenses}
-          removeExpense={removeExpense} />  
+          filteredExpenses={sortedExpenses}
+          removeExpense={removeExpense} 
+          />  
       </section>
      
       <section className="card total-section">
+       {console.log("Monthly Summary:", getMonthlySummary)}
+
         <Summary 
           getTotalAmount={getTotalAmount} 
           getFilterSummary={getFilterSummary}
-          filteredExpenses={filteredExpenses}
+          filteredExpenses={sortedExpenses}
+          getMonthlySummary={getMonthlySummary}
           />
       </section>
     </div>
