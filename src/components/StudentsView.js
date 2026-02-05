@@ -2,7 +2,7 @@ import React from "react";
 
 class StudentsView extends React.Component {
     render() {
-        const { students, onEdit, onDelete, onMarkPassed } = this.props;
+        const { students, onEdit, onDelete, onMarkPassed, onMarkFailed } = this.props;
 
         if (students.length === 0) {
             return (
@@ -41,7 +41,13 @@ class StudentsView extends React.Component {
 
                             {!student.passed && (
                                 <button onClick={() => onMarkPassed(student)} className="edit-btn">                                
-                                    Mark as Passed
+                                    ✔
+                                </button>
+                            )}
+
+                            {student.passed && (
+                                <button onClick={() => onMarkFailed(student)} className="edit-btn">                                
+                                    ❌
                                 </button>
                             )}
                         </div>
