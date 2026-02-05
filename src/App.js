@@ -138,6 +138,14 @@ class App extends React.Component {
     });
   };
 
+  handleMarkStudentFailed = (student) => {
+    this.setState({
+      students: this.state.students.map(s =>
+        s.id === student.id ? { ...s, passed: false, grade: 59 } : s
+      )
+    });
+  };
+
   handleAddSubmit = (event) => {
     event.preventDefault();
     const { name, grade } = this.state.newStudent;
@@ -220,6 +228,7 @@ class App extends React.Component {
         onEdit={this.handleEditStudent}
         onDelete={this.handleDeleteStudent}
         onMarkPassed={this.handleMarkStudentPassed}
+        onMarkFailed={this.handleMarkStudentFailed}
       />
     );
   }
