@@ -32,16 +32,17 @@ class StudentsView extends React.Component {
 
                         <div className="student-actions">
                             <button onClick={() => onDelete(student.id)} className="delete-btn">
-                                Delete
+                                <img src="delete.png" alt="Delete"></img>
+
                             </button>
 
                             <button onClick={() => onEdit(student)} className="edit-btn">
-                                Edit
+                                <img src="edit.png" alt="Edit"></img>
                             </button>
 
                             {!student.passed && (
                                 <button onClick={() => onMarkPassed(student)} className="edit-btn">                                
-                                    ✔
+                                    <img src="accept.png" alt="Mark as passed"></img>
                                 </button>
                             )}
 
