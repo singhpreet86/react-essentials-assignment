@@ -65,13 +65,13 @@ const Filters = ({ filters, updateFilter, clearFilters, categories, getFilterSum
 
       {getFilterSummary().hasActiveFilters && (
         <div className='form-group'>
+          <label>Clear Filter</label>
 
-          <button
-            style={{ background: '#e53e3e', padding: '8px 12px', fontSize: '14px', margin: '35px' }}
+          <button className=" filter-button"
             onClick={clearFilters}
           >
 
-            Clear Filters </button>
+            Reset </button>
         </div>
       )}
 
