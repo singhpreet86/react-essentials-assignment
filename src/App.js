@@ -136,7 +136,6 @@ function App() {
       </section>
 
       <section className="card total-section">
-        {console.log("Monthly Summary:", getMonthlySummary)}
 
         <Summary
           getTotalAmount={getTotalAmount}

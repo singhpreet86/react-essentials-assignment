@@ -93,6 +93,7 @@ button:hover{
   border-radius: 8px;
   margin-bottom: 10px;
   background: #f8f9fa;
+  gap: 20px;
 }
 
 .expense-info{
@@ -129,9 +130,8 @@ button:hover{
 .expense-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
-
 
 .total-amount{
   font-size: 2rem;
@@ -293,4 +293,36 @@ width: 50%;
   padding: 8px 12px;
 
   
+}
+
+
+.dlt-btn {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.dlt-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.modal-textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: none;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  cursor: not-allowed;
 }

@@ -7,6 +7,7 @@ const ExpenseList = ({ filteredExpenses, removeExpense, getTotalAmount }) => {
   const [expenseToDelete, setExpenseToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalDescription, setModalDescription] = useState('');
+  const [showFullBtn, setShowFullBtn] = useState({});
 
   const DeleteConirmation = ({ onConfirm, onCancel }) => {
     return (
@@ -28,10 +29,14 @@ const ExpenseList = ({ filteredExpenses, removeExpense, getTotalAmount }) => {
     return (
       <div className="modal-overlay">
         <div className="modal">
-          <h3>Expense Description</h3>
-          <p>{description}</p>
+          <h3 style={{ marginBottom: "12px" }}>Expense Description</h3>
+          <textarea
+          className="modal-textarea"
+          value={description}
+          readOnly
+        />
           <div className="modal-actions">
-            <button onClick={() => {             
+            <button onClick={() => {
               setShowModal(false);
             }}>Close</button>
           </div>
@@ -40,6 +45,12 @@ const ExpenseList = ({ filteredExpenses, removeExpense, getTotalAmount }) => {
       </div>
     )
   }
+
+  const openDescription = (description) => {
+    setShowModal(true);
+    setModalDescription(description);
+  };
+
 
 
   return (
@@ -60,11 +71,17 @@ const ExpenseList = ({ filteredExpenses, removeExpense, getTotalAmount }) => {
 
               <div
                 className="expense-description"
-                onClick={(e) => {
-                  if (e.currentTarget.scrollHeight > e.currentTarget.clientHeight) {
-                    showDescriptionModal(expense.description);
-                    setShowModal(true);
-                    setModalDescription(expense.description);
+
+                ref={(el) => {
+                  if (!el) return;
+
+                  const isOverflowing = el.scrollHeight > el.clientHeight;
+
+                  if (showFullBtn[expense.id] !== isOverflowing) {
+                    setShowFullBtn(prev => ({
+                      ...prev,
+                      [expense.id]: isOverflowing
+                    }));
                   }
                 }}
               >
@@ -76,14 +93,32 @@ const ExpenseList = ({ filteredExpenses, removeExpense, getTotalAmount }) => {
             </div>
 
             <div className="expense-right">
+                   {showFullBtn[expense.id] && (
+                <button
+                  className="show-full-desc dlt-btn"
+                  onClick={() => openDescription(expense.description)}
+                >
+                  <img src="information.png" alt="Show full description" />
+                </button>
+              )}
+
               <div className='expense-amount'>
                 <span className="currency">$</span>
                 <span className="amount">{expense.amount.toFixed(2)}</span>
               </div>
 
-              <button style={{ background: '#e53e3e', padding: '5px 10px', fontSize: '12px' }} onClick={() => { setShowDelete(true); setExpenseToDelete(expense.id); }}>Delete</button>
+              <button className="dlt-btn" onClick={() => { setShowDelete(true); setExpenseToDelete(expense.id); }}>
 
+                <img src="delete.png" alt="delete" />
+
+              </button>
+
+
+
+         
             </div>
+
+
           </div>
 
 
